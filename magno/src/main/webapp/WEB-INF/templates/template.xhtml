@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"     
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <!--<h:outputStylesheet name="./css/default.css"/>-->
+        <!-- <h:outputStylesheet name="./css/cssLayout.css"/>-->
+        <h:outputStylesheet name="./css/detalleProducto.css"/>
+        <h:outputStylesheet name="./css/carruselProductos.css"/>
+
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
+
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css"/>
+
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+      <link rel="stylesheet" href="#{request.contextPath}/resources/css/bootstrap-magnify.css"></link>
+
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+
+        <script  type="text/javascript" src="#{request.contextPath}/resources/js/bootstrap-magnify.js"></script>
+
+
+        <title>Magno Express - sistema de compras</title>
+    </h:head>
+
+    <h:body>
+        <div class="container" style="width: 80%">
+
+            <div id="top">
+                <ui:insert name="top">
+                    <ui:include src="cabecera.xhtml"/>
+                    <ui:include src="megaMenu.xhtml"/>
+                </ui:insert>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- Contenido -->
+                    <div id="left">
+                        <ui:insert name="left">
+                            <!-- <ui:include src="login.xhtml"/>-->
+                        </ui:insert>
+                    </div>
+                    <div>
+                        <div id="content" class="right_content">                    
+                            <ui:insert name="content">
+                                Content
+                            </ui:insert>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div id="bottom">
+                    <div class="col-md-12">                        
+                        <ui:insert name="bottom">
+                            <ui:include src="footer.xhtml"/>
+                        </ui:insert>
+                        <h:form>   
+                            <div class="well bg-info text-center">
+                                <h:panelGrid columns="2">
+                                    <img src="http://icons.iconarchive.com/icons/gakuseisean/ivista-2/72/Alarm-Arrow-Down-icon.png"/>
+                                    <h:commandLink value="Descargar App para android"
+                                                   action="descargarApp.xhtml"
+                                                   styleClass="text-center"
+                                                   />
+                                </h:panelGrid>
+                            </div>
+
+                        </h:form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ClickDesk Live Chat Service for websites -->
+        <script type='text/javascript'>
+            var _glc = _glc || [];
+            _glc.push('all_ag9zfmNsaWNrZGVza2NoYXRyDwsSBXVzZXJzGMr-vNAMDA');
+            var glcpath = (('https:' == document.location.protocol) ? 'https://my.clickdesk.com/clickdesk-ui/browser/' :
+                    'http://my.clickdesk.com/clickdesk-ui/browser/');
+            var glcp = (('https:' == document.location.protocol) ? 'https://' : 'http://');
+            var glcspt = document.createElement('script');
+            glcspt.type = 'text/javascript';
+            glcspt.async = true;
+            glcspt.src = glcpath + 'livechat-new.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(glcspt, s);
+        </script>
+        <!-- End of ClickDesk -->
+    </h:body>
+
+</html>

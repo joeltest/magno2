@@ -1,0 +1,314 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:siscop="http://www.mytags.com/schema/mytags"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <body>
+
+        <ui:composition template="./../WEB-INF/templates/admin/templateAdmin.xhtml">
+
+            <ui:define name="title">
+                Administrar Productos
+            </ui:define>
+
+            <ui:define name="content">
+               
+                <h:form id="formDT" rendered="#{not empty sesion.usuarioSesion}">                  
+                    <h3 class="text-center h3"> #{msgs['titulo.catalogo.bloques']}</h3>
+                    <p:messages id="messagess" showDetail="true" autoUpdate="true" globalOnly="true" closable="true"/>                                           
+                    <p:commandLink value="Nuevo producto" 
+                                   actionListener="#{productoBean.prepararNuevo(event)}"
+                                   oncomplete="PF('popup').show();"
+                                   update="@(form)"
+                                   styleClass="btn btn-primary"                                    
+                                   />    
+
+                    <siscop:dataTableCatalogo widgetvar="datatableWv"
+                                              lista="#{productoBean.lista}"                                      
+                                              rowkey="#{data.id}"
+                                              filas="10"
+                                              >
+                        <ui:define name="definirCuerpo">
+                            <p:column headerText="Producto"                                      
+                                      width="70%"
+                                      > 
+
+                                <div class="row">
+
+                                    <div class="col-md-8">
+                                        <p:panelGrid columns="2" >
+                                            <p:outputLabel value="Cod. Barras : "/>
+                                            <h:outputText value="#{data['codigoBarras']}" />
+                                            <p:outputLabel value="Nombre : "/>
+                                            <h:outputText value="#{data['nombre']}" />
+                                            <p:outputLabel value="Precio : "/>
+                                            <p:spinner value="#{data['precio']}"/> 
+                                            <p:outputLabel value="Modelo : "/>
+                                            <h:outputText value="#{data['modelo']}" />
+                                            <p:outputLabel value="Marca : "/>
+                                            <h:outputText value="#{data['marcaId'].nombre}" />
+                                            <p:outputLabel value="Categoria : "/>
+                                            <h:outputText value="#{data['categoriaId'].nombre}" />
+                                        </p:panelGrid>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <img src="/magno/AbrirImage?ID=#{data['siArchivo'].id}" alt="..." 
+                                             data-toggle="magnify" 
+                                             class="img-thumbnail" 
+                                             height="300px" width="300px"/>
+                                    </div>
+                                </div>
+
+                                <p:panelGrid columns="1">
+                                    <p:outputLabel value="Descripción : "/>
+                                    <p:inputTextarea
+                                        cols="80"
+                                        rows="6"                                                 
+                                        value="#{data['descripcion']}"                                                  
+                                        readonly="true"
+                                        >                                    
+                                    </p:inputTextarea>   
+                                    <p:outputLabel value="Caracteristicas : "/>
+                                    <p:inputTextarea
+                                        cols="80"
+                                        rows="6"                                                 
+                                        value="#{data['caracteristica']}"                                                  
+                                        readonly="true"
+                                        >                                    
+                                    </p:inputTextarea>   
+                                    <p:outputLabel value="Garantia : "/>
+                                    <p:inputTextarea
+                                        cols="80"
+                                        rows="6"                                                 
+                                        value="#{data['garantia']}"                                                  
+                                        readonly="true"
+                                        >                                    
+                                    </p:inputTextarea>  
+                                </p:panelGrid>
+                                <div class="well">
+                                    <p:commandLink value="Modificar"                                                        
+                                                   actionListener="#{productoBean.prepararModificacion(event)}"
+                                                   oncomplete="PF('popup').show();"  
+                                                   update="@(form)"
+                                                   styleClass="btn btn-primary"                                                                                     
+                                                   >
+                                        <f:param name="param" value="#{data.id}"/>                                                                            
+                                    </p:commandLink>
+                                    &nbsp;
+                                    <p:commandLink value="Eliminar"                                               
+                                                   actionListener="#{productoBean.prepararEliminacion(event)}"   
+                                                   oncomplete="PF('popup').show();" 
+                                                   update="@(form)"
+                                                   styleClass="btn btn-danger"
+                                                   >
+                                        <f:param name="param" value="#{data.id}"/>
+                                    </p:commandLink>
+
+                                </div>
+
+                            </p:column> 
+
+
+                        </ui:define>
+                    </siscop:dataTableCatalogo>
+                </h:form>
+
+                <h:form id="dialog">
+                    <p:growl id="messages" showDetail="true" />
+                    <siscop:dialog widgetVar="popup"
+                                   titulo="#{productoBean.OPERACION}"                                                                                      
+                                   >
+                        <h:outputStylesheet library="css" name="style.css" />
+                        <ui:define name="cuerpo">  
+                            <div class="row">
+
+                                <div class="col-md-8">
+                                    <p:outputLabel value="Sucursal :"/>
+                                    <p:outputLabel value="#{sesion.usuarioSesion.sucursalId.nombre}"/> 
+                                    <h:panelGrid columns="6" >
+                                        <p:outputLabel value="Cod. Barras :"/>
+                                        <p:inputText id="codBarras" 
+
+                                                     value="#{productoBean.producto.codigoBarras}" 
+                                                     required="true" 
+                                                     readonly="#{productoBean.OPERACION eq 'ELIMINAR' }"
+                                                     requiredMessage="Requerido">
+                                            <p:ajax event="blur" update="codBarras,msgcodBarras"/> 
+                                        </p:inputText>                                                                     
+                                        <p:message id="msgcodBarras" for="codBarras"/> 
+
+                                        <p:outputLabel value="Nombre :"/>
+                                        <p:inputText id="nombre" 
+
+                                                     value="#{productoBean.producto.nombre}" 
+                                                     required="true" 
+                                                     readonly="#{productoBean.OPERACION eq 'ELIMINAR'}"
+                                                     requiredMessage="Requerido">
+                                            <p:ajax event="blur" update="nombre,msgnombre"/> 
+                                        </p:inputText>                                
+                                        <p:message id="msgnombre" for="nombre"/> 
+
+                                        <p:outputLabel value="Modelo :"/>
+                                        <p:inputText id="modelo" 
+
+                                                     value="#{productoBean.producto.modelo}" 
+                                                     required="true" 
+                                                     readonly="#{productoBean.OPERACION eq 'ELIMINAR'}"
+                                                     requiredMessage="Requerido">
+                                            <p:ajax event="blur" update="modelo,msgmodelo"/> 
+                                        </p:inputText>                                
+                                        <p:message id="msgmodelo" for="modelo"/> 
+
+                                        <p:outputLabel value="Precio :"/>
+                                        <p:inputText id="precio" 
+
+                                                     value="#{productoBean.producto.precio}" 
+                                                     required="true" 
+                                                     readonly="#{productoBean.OPERACION eq 'ELIMINAR'}"
+                                                     requiredMessage="Requerido">
+                                            <p:ajax event="blur" update="precio,msgprecio"/> 
+                                        </p:inputText>                                
+                                        <p:message id="msgprecio" for="precio"/> 
+                                    </h:panelGrid>
+                                    <h:panelGrid columns="3">
+                                        <p:outputLabel value="Marca :"/>                   
+                                        <p:selectOneMenu id="marca"
+                                                         value="#{productoBean.idMarcaSelecciona}" 
+                                                         immediate="true"
+                                                         valueChangeListener="#{productoBean.valueChangeMarca}" >
+                                            <f:selectItem itemLabel="Seleccione..." itemValue="-1"/>
+                                            <f:selectItems value="#{productoBean.listaMarcaItems}"/>
+                                            <f:ajax event="valueChange" render="@this"/>
+                                        </p:selectOneMenu>                                                         
+                                        <p:message id="msgmarca" for="marca"/> 
+
+                                        <p:outputLabel value="Categoria :"/>                   
+                                        <p:selectOneMenu id="categoriaPadre"
+                                                         value="#{productoBean.idCategoriaPadreSeleccionada}" 
+                                                         immediate="true"
+                                                         valueChangeListener="#{productoBean.valueChangeCategoriasPadre}" >
+                                            <f:selectItem itemLabel="Seleccione..." itemValue="-1"/>
+                                            <f:selectItems value="#{productoBean.listaCategoriaPadreItems}"/>
+                                            <f:ajax event="valueChange" render="@this categoriaHijo"/>
+                                        </p:selectOneMenu>                                                         
+                                        <p:message id="msgcategoriapadre" for="categoriaPadre"/> 
+
+                                        <p:outputLabel value="SubCategoria :"/>                   
+                                        <p:selectOneMenu id="categoriaHijo"
+                                                         value="#{productoBean.idCategoriaHijoSeleccionada}" 
+                                                         immediate="true"
+                                                         valueChangeListener="#{productoBean.valueChangeCategoriasHijo}" >
+                                            <f:selectItem itemLabel="Seleccione..." itemValue="-1"/>
+                                            <f:selectItems value="#{productoBean.listaCategoriaHijosItems}"/>
+                                            <f:ajax event="valueChange" render="@this"/>
+                                        </p:selectOneMenu>                                                         
+                                        <p:message id="msgcategoriahijo" for="categoriaHijo"/> 
+                                    </h:panelGrid>
+                                    <h:panelGrid>
+                                        <p:outputLabel value="Descripción :"/>
+                                        <h:panelGrid columns="2">
+                                            <p:inputTextarea id="descripcion" 
+                                                             cols="80"
+                                                             rows="3"                                                 
+                                                             value="#{productoBean.producto.descripcion}" 
+                                                             required="true" 
+                                                             readonly="#{productoBean.OPERACION eq 'ELIMINAR'}"
+                                                             requiredMessage="Requerido">
+                                                <p:ajax event="blur" update="descripcion,msgdescripcion"/> 
+                                            </p:inputTextarea>                                
+                                            <p:message id="msgdescripcion" for="descripcion"/> 
+                                        </h:panelGrid>
+
+                                        <p:outputLabel value="Caracteristicas :"/>
+                                        <h:panelGrid columns="2">
+                                            <p:inputTextarea id="caracteristicas" 
+                                                             cols="80"
+                                                             rows="3"
+
+                                                             value="#{productoBean.producto.caracteristica}" 
+                                                             required="true" 
+                                                             readonly="#{productoBean.OPERACION eq 'ELIMINAR'}"
+                                                             requiredMessage="Requerido">
+                                                <p:ajax event="blur" update="caracteristicas,msgcaracteristicas"/> 
+                                            </p:inputTextarea>                                
+                                            <p:message id="msgcaracteristicas" for="caracteristicas"/> 
+                                        </h:panelGrid>
+
+                                        <p:outputLabel value="Garantia :"/>
+                                        <h:panelGrid columns="2">
+                                            <p:inputTextarea id="garantia" 
+                                                             cols="80"
+                                                             rows="3"
+
+                                                             value="#{productoBean.producto.garantia}" 
+                                                             required="true" 
+                                                             readonly="#{productoBean.OPERACION eq 'ELIMINAR'}"
+                                                             requiredMessage="Requerido">
+                                                <p:ajax event="blur" update="garantia,msggarantia"/> 
+                                            </p:inputTextarea>                                
+                                            <p:message id="msggarantia" for="garantia"/> 
+                                        </h:panelGrid>
+
+                                    </h:panelGrid>
+                                </div>
+                                <div class="col-md-4">
+                                    <h:panelGrid columns="1" >
+                                        <p:fileUpload
+                                            fileUploadListener="#{productoBean.uploadAttachment}"                                
+                                            mode="advanced" 
+                                            update="messages" 
+                                            multiple="false"
+                                            sizeLimit="900000000"
+                                            allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+                                            uploadLabel="Cargar" 
+                                            cancelLabel="Cancelar" 
+                                            label="Buscar foto"
+                                            required="true" />
+                                        <img src="/magno/AbrirImage?ID=#{productoBean.siArchivo.id}" alt="..." class="img-thumbnail" 
+                                             height="300px" width="300px"/>
+                                    </h:panelGrid>
+                                </div>
+                            </div>
+                        </ui:define>
+
+                        <ui:define name="pie">
+                            <p:commandLink rendered="#{productoBean.OPERACION eq 'INSERTAR'}"
+                                           value="Guardar" 
+                                           actionListener="#{productoBean.guardar(event)}"                                           
+                                           update=":formDT"
+                                           styleClass="btn btn-primary btn-info"    
+                                           oncomplete="PF('popup').hide();"                                           
+                                           />
+                            <p:commandLink rendered="#{productoBean.OPERACION eq 'MODIFICAR'}"
+                                           value="Modificar" 
+                                           actionListener="#{productoBean.modificar(event)}"                                           
+                                           update=":formDT"
+                                           styleClass="btn btn-primary btn-success"    
+                                           oncomplete="PF('popup').hide();"                                           
+                                           />
+                            <p:commandLink rendered="#{productoBean.OPERACION eq 'ELIMINAR' }"
+                                           value="Eliminar" 
+                                           actionListener="#{productoBean.eliminar(event)}"
+                                           oncomplete="PF('popup').hide();"                                           
+                                           update=":formDT"
+                                           styleClass="btn btn-primary btn-danger"  
+                                           />   
+
+                            <p:commandLink value="Cancelar"                                        
+                                           onclick="PF('popup').hide();"                                           
+                                           styleClass="btn btn-default"                                          
+                                           />  
+                        </ui:define>
+                    </siscop:dialog>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:siscop="http://www.mytags.com/schema/mytags"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <body>
+
+        <ui:composition template="./WEB-INF/templates/template.xhtml">        
+            <ui:define name="content">  
+                <div class="container">
+                    <div class="row form-group">
+                        <div class="col-xs-12">
+                            <ul class="nav nav-pills nav-justified thumbnail setup-panel">
+                                <li class="disabled"><a href="#step-1">
+                                        <h4 class="list-group-item-heading">Paso 1</h4>
+                                        <p class="list-group-item-text">Llenar carrito de compras</p>
+                                    </a></li>
+                                <li class="disabled"><a href="#step-2">
+                                        <h4 class="list-group-item-heading">Paso 2</h4>
+                                        <p class="list-group-item-text">Confirmar la orden</p>
+                                    </a></li>
+                                <li class="active"><a href="#step-3">
+                                        <h4 class="list-group-item-heading">Paso 3</h4>
+                                        <p class="list-group-item-text">Imprimir orden</p>
+                                    </a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <h:form id="myform">
+                    <div class="container">
+                        <div class="row">
+                            <div class="well col-xs-10 col-sm-10 col-md-6 col-xs-offset-1 col-sm-offset-1 col-md-offset-3">
+                                <div class="row">
+                                    <div class="col-xs-6 col-sm-6 col-md-6">
+                                        <address>
+                                            <strong>Cliente: #{productoIniciarCompraBean.ordenCompraImprimir.clienteId.nombre}</strong>
+                                            <br/>
+                                            Correo :#{productoIniciarCompraBean.ordenCompraImprimir.clienteId.correo}
+                                            <br/>
+                                            Tel : #{productoIniciarCompraBean.ordenCompraImprimir.clienteId.telefono}
+                                        </address>
+
+                                    </div>
+                                    <div class="col-xs-6 col-sm-6 col-md-6 text-right">
+                                        <p>
+                                            <em>Fecha de orden :<p:outputLabel value="#{productoIniciarCompraBean.ordenCompraImprimir.fechaGenero}" 
+                                                                               >
+                                                    <f:convertDateTime dateStyle="short"/>
+                                                </p:outputLabel>
+                                            </em>
+                                        </p>
+                                        <address>
+                                            <strong>#{productoIniciarCompraBean.ordenCompraImprimir.sucursalId.nombre}</strong>
+                                            <br/>
+                                            #{productoIniciarCompraBean.ordenCompraImprimir.sucursalId.direccion}
+                                            <br/>
+                                            #{productoIniciarCompraBean.ordenCompraImprimir.sucursalId.calle}
+                                            <br/>
+                                            #{productoIniciarCompraBean.ordenCompraImprimir.sucursalId.colonia}
+                                            <br/>
+                                            #{productoIniciarCompraBean.ordenCompraImprimir.sucursalId.ciudad}
+                                            <br/>
+                                            <abbr title="Phone">TEL:</abbr> 4949494949
+                                        </address>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="text-center">
+                                        <h1>Orden : #{productoIniciarCompraBean.ordenCompraImprimir.codigo}</h1>
+                                    </div>
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Cod.</th>
+                                                <th>Producto</th>
+                                                <th></th>
+                                                <th>#</th>
+                                                <th class="text-center">Precio</th>
+                                                <th class="text-center">Importe</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <ui:repeat value="#{productoIniciarCompraBean.listaDetalleOrden}"
+                                                       var="item">
+                                                <tr>
+                                                    <td class="col-md-3"><em>#{item.productoId.codigoBarras}</em></td>
+                                                    <td class="col-md-3"><em>
+                                                            <img src="/magno/AbrirImage?ID=#{item.productoId.siArchivo.id}" alt="..."                                                          
+                                                                 class="img-responsive img-rounded center-block" 
+                                                                 />
+                                                        </em></td>
+                                                    <td class="col-md-9"><em>#{item.productoId.nombre}</em></td>
+                                                    <td class="col-md-1" style="text-align: center"> #{item.cantidad} </td>
+                                                    <td class="col-md-1 text-center">$ #{item.productoId.precio} </td>
+                                                    <td class="col-md-1 text-center">$ #{item.importe}</td>
+                                                </tr>
+                                            </ui:repeat>
+                                            <tr>
+                                                <td>   </td>
+                                                <td>   </td>
+                                                <td class="text-right"><h4><strong>Total: </strong></h4></td>
+                                                <td class="text-center text-danger"><h4>
+                                                        <strong>$#{productoIniciarCompraBean.ordenCompraImprimir.importeTotal}</strong>
+                                                    </h4></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <p:commandButton id="printIdFooter"
+                                                     value="Imprimir orden" type="button"
+                                                     styleClass="btn btn-info  btn-lg btn-block glyphicon glyphicon-print"
+                                                     >
+                                        <p:printer target="myform" />
+                                    </p:commandButton>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </h:form>
+                <p:commandLink value=" Volver a pagina principal"
+                               styleClass="btn btn-default glyphicon glyphicon-menu-left"
+                               action="principa.xhtml?faces-redirect=true;"
+                               />
+            </ui:define>
+            <ui:define name="bottom">
+                <ui:include src="fragmentoTambienVea.xhtml"/>
+            </ui:define>
+        </ui:composition>
+
+    </body>
+</html>

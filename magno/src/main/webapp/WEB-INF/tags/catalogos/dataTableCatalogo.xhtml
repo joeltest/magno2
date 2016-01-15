@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+    <p:dataTable                               
+                 var="data" 
+                 widgetVar="#{widgetvar}"
+                 value="#{lista}"                                                                  
+                 rowKey="#{rowkey}" 
+                 styleClass="table table-hover table-responsive"                                                              
+                 paginator="true" 
+                 rows="#{filas eq '' ? 10 : filas}"                  
+                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                 rowsPerPageTemplate="#{rowsPerPageTemplate eq null  ? '10,20,40':rowsPerPageTemplate}">   
+        <ui:insert name="definirCuerpo">
+            <!-- Aqui se definirá el cuerpo del datatable con las etiquetas
+                    <ui:define name="definirCuerpo">
+                    </ui:define>
+            -->
+        </ui:insert>
+    </p:dataTable> 
+</ui:composition>

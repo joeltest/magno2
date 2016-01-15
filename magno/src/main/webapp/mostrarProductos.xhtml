@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:siscop="http://www.mytags.com/schema/mytags"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <body>
+
+        <ui:composition template="./WEB-INF/templates/template.xhtml">        
+            <ui:define name="content"> 
+                <!-- <ui:include src="fragmentoLoader.xhtml"/>-->
+
+                <style>
+                    a.list-group-item {
+                        height:auto;
+                        min-height:220px;
+                    }
+                    a.list-group-item.active small {
+                        color:#fff;
+                    }
+                    .stars {
+                        margin:20px auto 1px;    
+                    }
+                </style>
+
+                <!--<script>
+                    $("#formImagen://idImagenDetall")
+                    PF('popup').show();
+                </script>  -->         
+
+                <h:form>
+                    <div class="col-md-12">
+                        <div class="panel panel-success">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <h1 class="text-center">#{productoIniciarCompraBean.categoriaActiva.nombre}</h1>
+                                    <div class="list-group">
+                                        <p:dataTable 
+                                            value="#{productoIniciarCompraBean.listaProductos}"
+                                            var="item"     
+                                            style="width: 100%"
+                                            styleClass="table table-hover table-responsive"                                                              
+                                            paginator="true" 
+                                            rows="10"           
+                                            paginatorPosition="bottom"
+                                            paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                            rowsPerPageTemplate="10,20,40"
+                                            >
+                                            <p:column class="row">
+                                                <div class="row">
+                                                    <div class="list-group-item ">
+                                                        <div class="row">
+                                                            <div class="media col-md-2">
+                                                                <figure class="pull-left">
+                                                                    <a onclick="PF('popup').show();">
+                                                                        <img 
+                                                                            src="/magno/AbrirImage?ID=#{item['siArchivo'].id}" alt="..." 
+                                                                            data-toggle="magnify" 
+                                                                            class="media-object img-rounded img-responsive" 
+                                                                            />
+                                                                    </a>
+                                                                </figure>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <h3 class="list-group-item-heading">
+                                                                    <span class="label label-success"> (#{item.marcaId.nombre})</span>
+                                                                    <h:commandLink styleClass="btn btn-link"
+                                                                                   action="/detalleProducto.xhtml?faces-redirect=true"
+                                                                                   actionListener="#{productoIniciarCompraBean.verDetalleProducto(event)}"                                                                                   
+                                                                                   value="#{item.nombre}"                                                               
+                                                                                   >
+                                                                        <f:param name="idProducto" value="#{item.id}"/>
+                                                                    </h:commandLink>
+
+                                                                </h3>
+                                                                <p class="list-group-item-text">                                                            
+                                                                    #{item.descripcion}                                                                                    
+                                                                </p>
+                                                            </div>
+                                                            <div class="col-md-3 text-center">
+                                                                <h2> $ #{item.precio} <small> * </small></h2>
+                                                                <h:commandLink styleClass="btn btn-warning btn-product glyphicon glyphicon-shopping-cart"                                                                                   
+                                                                               action="/carritoCompras.xhtml?faces-redirect=true"
+                                                                               actionListener="#{productoIniciarCompraBean.agregarProductoACarrito(event)}"
+                                                                               value="Agregar">   
+                                                                    <f:param name="idProducto" value="#{item.id}"/>
+                                                                </h:commandLink>   
+                                                                <h:commandLink styleClass="btn btn-success btn-product glyphicon glyphicon-modal-window "
+                                                                               action="/detalleProducto.xhtml?faces-redirect=true"
+                                                                               actionListener="#{productoIniciarCompraBean.verDetalleProducto(event)}"
+                                                                               value="Detalle"                                                               
+                                                                               >
+                                                                    <f:param name="idProducto" value="#{item.id}"/>
+                                                                </h:commandLink>
+                                                                <div class="stars">
+                                                                    <span class="glyphicon glyphicon-star"></span>
+                                                                    <span class="glyphicon glyphicon-star"></span>
+                                                                    <span class="glyphicon glyphicon-star"></span>
+                                                                    <span class="glyphicon glyphicon-star"></span>
+                                                                    <span class="glyphicon glyphicon-star-empty"></span>
+                                                                </div>
+                                                                <p>4<small> / </small> 5 </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </p:column>
+                                        </p:dataTable>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </h:form>
+
+                <h:form id="formImagen">
+                    <siscop:dialog widgetVar="popup"
+                                   titulo="Detalle de imagen"                                                                                      
+                                   >
+                        <ui:define name="cuerpo">  
+                            <img id="idImagenDetalle"          
+                                 src="/magno/AbrirImage?ID=2" alt="..."
+                                 data-toggle="magnify" 
+                                 class="img-responsive img-rounded center-block" 
+                                 />
+
+                        </ui:define>
+                        <ui:define name="pie">
+                            <p:commandLink value="Cerrar"                                        
+                                           onclick="PF('popup').hide();"                                           
+                                           styleClass="btn btn-default"    
+                                           ajax="false"
+                                           />  
+                        </ui:define>
+                    </siscop:dialog>
+                </h:form>
+
+            </ui:define>
+        </ui:composition>
+
+    </body>
+</html>

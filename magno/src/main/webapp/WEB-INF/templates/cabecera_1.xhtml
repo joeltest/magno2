@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:body>
+        <ui:composition>
+            <div class="row">
+                <div class="col-md-4">
+                    <img src="http://www.magnoexpress.com.br/im/logo.png"/>
+                </div>
+                <div class="col-md-2">
+                    <blockquote>
+                        <div class="panel">
+                            <img src="http://icons.iconarchive.com/icons/webalys/kameleon.pics/256/Tower-icon.png" style="width: 50px;height: 50px"/>                                                        
+                            <p:outputLabel value="Ometepec Gro."/>
+                            
+                        </div>
+                    </blockquote>
+                </div>
+                <div class="col-md-2">
+                    <blockquote>
+                        <div class="panel">
+                            <img src="http://icons.iconarchive.com/icons/graphicloads/100-flat-2/256/phone-icon.png" style="width: 50px;height: 50px"/>                            
+                            <p:outputLabel value="741 41 2 29 00  "/>
+                        </div>
+                    </blockquote>
+                </div>
+                <div class="col-md-2">
+                    <blockquote>
+                        <div class="panel">
+                            <img src="http://mangacorta.cl/assets/carro-41ba5ccf2e730289e3d9f5cc2c00b528.png" style="width: 50px;height: 50px;"/>
+                            <p:commandLink value="Ver Carrito (#{productoIniciarCompraBean.cantidadTotal})" styleClass="btn btn-info"
+                                           action="/carritoCompras.xhtml?faces-redirect=true"/>
+                        </div>
+                    </blockquote>
+                </div>
+                <div class="col-md-2">
+                    <h:form>
+                        <blockquote>
+                            <div class="panel">
+                                <img src="http://icons.iconarchive.com/icons/hopstarter/sleek-xp-basic/256/Administrator-icon.png" style="width: 50px;height: 50px;"/>
+                                <p:commandLink value="Sistema" 
+                                               styleClass="btn btn-default"
+                                               ajax="false"
+                                               action="./administrarOrdenes.xhtml"/>
+                            </div>
+                        </blockquote>
+
+
+
+                    </h:form>
+
+                </div>
+            </div>
+
+        </ui:composition>   
+    </h:body>
+</html>
+

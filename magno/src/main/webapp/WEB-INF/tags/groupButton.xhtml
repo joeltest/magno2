@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+
+    <div class="btn-group">       
+            <ui:insert name="boton_principal">
+                <!-- por ejemplo <p:commandLink styleClass="btn btn-danger" value="Nuevo"/> -->
+            </ui:insert>
+        <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+            <span class="caret"></span>
+            <span class="sr-only">Toggle Dropdown</span>
+        </button>
+        <ul class="dropdown-menu" role="menu">
+            <ui:insert name="botones_desplegables">
+                <!-- por ejemplo <li><a href="#">Another action</a></li>-->
+            </ui:insert>
+        </ul>
+    </div>
+
+</ui:composition>

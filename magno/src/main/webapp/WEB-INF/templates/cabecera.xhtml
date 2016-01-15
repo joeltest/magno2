@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:body>
+        <ui:composition>
+            <style>
+
+                .fb-profile img.fb-image-lg{
+                    z-index: 0;
+                    width: 100%;  
+                    height: 200px;
+                    margin-bottom: 10px;
+                }
+
+                .fb-image-profile
+                {
+                    margin: -90px 10px 0px 50px;
+                    z-index: 9;
+                    width: 20%; 
+                }
+
+                @media (max-width:768px)
+                {
+
+                    .fb-profile-text>h1{
+                        font-weight: 700;
+                        font-size:16px;
+                    }
+
+                    .fb-image-profile
+                    {
+                        margin: -45px 5px 0px 25px;
+                        z-index: 9;
+                        width: 20%; 
+                    }
+                }
+            </style>
+            <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'/>
+            <div >
+                <h:form>
+                    <div class="fb-profile">
+                        <ui:fragment rendered="#{sesion.sucursalActiva.id eq 1}">
+                            <img align="left" class="fb-image-lg" 
+                                 src="#{request.contextPath}/resources/img/magnoOmetepec.jpg" alt="Profile image example"/>
+                            <img align="left" class="fb-image-profile thumbnail" src="#{request.contextPath}/resources/img/magno1.jpg" alt="Profile image example"/>
+                        </ui:fragment>
+                        <ui:fragment rendered="#{sesion.sucursalActiva.id ne 1}">
+                            <img align="left" class="fb-image-lg" 
+                                 src="https://i.ytimg.com/vi/k0B6YRKncnE/maxresdefault.jpg" alt="Profile image example"/>
+                            <img align="left" class="fb-image-profile thumbnail" src="#{request.contextPath}/resources/img/magno1.jpg" alt="Profile image example"/>
+                        </ui:fragment>
+                        <div class="fb-profile-text">
+                            <h3>Magno express sucursal 
+                                <h:selectOneMenu value="#{sesion.sucursalSeleccionada}"
+                                                 valueChangeListener="#{sesion.cambiarSucursal}"
+                                                 
+                                                 >
+                                    <f:selectItems value="#{sesion.listaSucursales}"
+                                                   />
+                                    <f:ajax event="change"
+                                            render="@all" 
+                                            execute="@all"/>
+                                </h:selectOneMenu>
+                            </h3>
+                            <p>#{sesion.sucursalActiva.calle},#{sesion.sucursalActiva.colonia},#{sesion.sucursalActiva.ciudad} #{sesion.sucursalActiva.estado}. CP : #{sesion.sucursalActiva.cp} </p>
+                        </div>
+                    </div>
+
+                    <!-- <p:commandLink value="Sistema" 
+                                   styleClass="btn btn-default"
+                                   ajax="false"
+                                   action="./administrarOrdenes.xhtml"/>-->
+                </h:form>
+            </div> <!-- /container -->  
+
+        </ui:composition>   
+    </h:body>
+</html>
+

@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+    <div class="modal fade" id="#{widgetVar}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog #{question eq 'true' ? 'modal-sm':''}">            
+            <div id='idPopupContent' class="modal-content">
+                <div class="modal-header">
+                    <ui:fragment rendered="#{question eq ''}">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">#{msgs['sistema.cerrar']}</span></button>                            
+                    </ui:fragment>
+                    <div class="row">
+                        <div class="col-md-6"><h4 id="miPanelPopupTitulo" class="modal-title" /><h4>#{titulo}</h4></div>
+                    </div>                            
+                </div>
+
+                <div id="miPanelPopupCuerpo" class="modal-body">
+                    <ui:insert name="cuerpo">
+                    </ui:insert>
+                </div>                        
+
+                <div id="miPanelPopupPie" class="modal-footer">                                 
+                    <ui:insert name="pie">
+
+                    </ui:insert>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!-- <p:dialog widgetVar="#{widgetVar}"                
+  header="#{titulo}"  
+  closable="false"
+  modal="true"                              
+  draggable="false"
+  showEffect="clip"     
+  resizable="false"
+  styleClass="modal-dialog modal-sm"
+  hideEffect="clip">       
+<div class="panel panel-default">
+<div class="panel-body">
+    <ui:insert name="cuerpo">
+    </ui:insert>               
+</div>
+<div class="panel-footer text-right">
+    <ui:insert name="pie">  
+    </ui:insert>                                            
+</div>
+</div>
+</p:dialog> -->
+</ui:composition>

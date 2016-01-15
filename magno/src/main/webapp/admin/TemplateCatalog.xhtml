@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+       xmlns:siscop="http://www.mytags.com/schema/mytags"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Facelets Template</title>
+    </h:head>
+
+    <h:body>
+        <h:form id="formDT" rendered="#{not empty sesion.usuarioSesion}">                  
+            <h3 class="text-center h3"> #{msgs['titulo.catalogo.bloques']}</h3>
+            <p:messages id="messagess" showDetail="true" autoUpdate="true" globalOnly="true" closable="true"/>                                           
+            <p:commandLink value="Nuevo producto" 
+                           actionListener="#{productoBean.prepararNuevo(event)}"
+                           oncomplete="PF('popup').show();"
+                           update="@(form)"
+                           styleClass="btn btn-primary"                                    
+                           />    
+            <siscop:dataTableCatalogo widgetvar="datatableWv"
+                                      lista="#{productoBean.lista}"                                      
+                                      rowkey="#{data.id}"
+                                      filas="10"
+                                      >
+                <ui:define name="definirCuerpo">
+                    <ui:insert name="columnas">
+                        Columnas datatable
+                    </ui:insert>
+                </ui:define>
+            </siscop:dataTableCatalogo>
+        </h:form>
+
+        <h:form id="dialog">
+            <p:growl id="messages" showDetail="true" />
+            <siscop:dialog widgetVar="popup"
+                           titulo="#{productoBean.OPERACION}"                                                                                      
+                           >
+                <h:outputStylesheet library="css" name="style.css" />
+                <ui:define name="cuerpo">  
+                    
+                    cuerpo 
+                    
+                    
+                </ui:define>
+                <ui:define name="pie">
+                                    <p:commandLink value="Cancelar"                                        
+                                   onclick="PF('popup').hide();"                                           
+                                   styleClass="btn btn-default"                                          
+                                   />  
+                </ui:define>
+            </siscop:dialog>
+        </h:form>
+    </h:body>
+
+</html>

@@ -1,0 +1,162 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:siscop="http://www.mytags.com/schema/mytags"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./WEB-INF/templates/admin/templateAdmin.xhtml">
+
+            <ui:define name="title">
+                Surtir la orden # #{surtirOrdenBean.ordenSeleccionada.codigo}
+            </ui:define>
+
+            <ui:define name="content">
+
+                <p:messages id="messagess" showDetail="true" autoUpdate="true" globalOnly="true" closable="true"/>                                           
+                <h:form id="formDialog">
+                    <p:growl id="messages" showDetail="true" />
+
+
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="invoice-title">
+                                    <h3>
+                                        Order # #{surtirOrdenBean.ordenSeleccionada.codigo}
+                                        <br/>
+                                        <small>
+                                            <p:outputLabel value="#{surtirOrdenBean.ordenSeleccionada.fechaGenero}"
+                                                           >
+                                                <f:convertDateTime dateStyle="short"/>
+                                            </p:outputLabel>
+                                        </small>
+                                    </h3>
+                                    <h3 class="pull-right">#{surtirOrdenBean.ordenSeleccionada.sucursalId.nombre}</h3>
+                                </div>
+                                <hr/>
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        <address>
+                                            <strong>Suc. :</strong><br/>
+                                            #{surtirOrdenBean.ordenSeleccionada.sucursalId.direccion}<br/>
+                                            #{surtirOrdenBean.ordenSeleccionada.sucursalId.colonia}<br/>
+                                            #{surtirOrdenBean.ordenSeleccionada.sucursalId.calle}<br/>
+                                            #{surtirOrdenBean.ordenSeleccionada.sucursalId.ciudad}
+                                        </address>
+                                    </div>
+                                    <div class="col-xs-6 text-right">
+                                        <address>
+                                            <strong>Cliente :</strong><br/>
+                                            #{surtirOrdenBean.ordenSeleccionada.clienteId.nombre}<br/>
+                                            #{surtirOrdenBean.ordenSeleccionada.clienteId.direccion}<br/>
+                                            #{surtirOrdenBean.ordenSeleccionada.clienteId.correo}<br/>
+                                            #{surtirOrdenBean.ordenSeleccionada.clienteId.telefono}
+                                        </address>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="container">
+                                    <div class="row">                                                
+                                        <div class="col-md-12">
+                                            <siscop:dataTableCatalogo widgetvar="datatable"
+                                                                      lista="#{surtirOrdenBean.listaDetalleOrden}"                                      
+                                                                      rowkey="#{data.id}"
+                                                                      filas="6"
+                                                                      >
+                                                <ui:define name="definirCuerpo">
+                                                    <p:column                                     
+                                                        width="10%"
+                                                        > 
+                                                        <p:outputLabel value="#{data['productoId'].codigoBarras}"/>
+                                                        <img src="/magno/AbrirImage?ID=#{data.productoId.siArchivo.id}" alt="..."                                                          
+                                                             style="width: 100px;height: 100px;"
+                                                             class="img-responsive img-rounded center-block" 
+                                                             />
+                                                    </p:column> 
+                                                    <p:column headerText="Producto"                                      
+                                                              width="10%"
+                                                              > 
+
+                                                        <p:outputLabel value="#{data['productoId'].nombre}"/>
+                                                    </p:column> 
+                                                    <p:column headerText="Precio"                                      
+                                                              width="10%"
+                                                              > 
+                                                        <p:outputLabel value="#{data['productoId'].precio}"/>
+                                                    </p:column>
+                                                    <p:column headerText="Cant."                                      
+                                                              width="10%"
+                                                              > 
+                                                        <p:spinner value="#{data['cantidad']}"
+                                                                   min="1"
+                                                                   size="3"
+                                                                   />
+
+                                                    </p:column>
+                                                    <p:column headerText="Importe"                                      
+                                                              width="10%"
+                                                              > 
+                                                        <p:outputLabel value="#{data['importe']}"/>
+                                                    </p:column>
+                                                    <p:column                                
+                                                        width="10%"
+                                                        > 
+                                                        <div class="container">
+                                                            <div class="row">
+
+                                                              
+                                                            <p:commandLink 
+                                                                actionListener="#{surtirOrdenBean.noSurtido(event)}"
+                                                                styleClass="btn btn-danger btn-lg glyphicon glyphicon-remove" >
+                                                                <f:param name="idDetalle" value="#{data['id']}"/>
+                                                        </p:commandLink>
+                                                    </div>
+                                                </div>
+                                            </p:column>
+                                        </ui:define>
+                                    </siscop:dataTableCatalogo>
+                                </div>                              
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 right_content">
+                                    <div class="text-right">
+                                        
+                                        <div class="row">
+                                            <h2>Importe : #{surtirOrdenBean.ordenSeleccionada.importeTotal}</h2>
+                                        </div>
+                                        <div class="row">
+                                            <p:commandLink value="Realizar venta"
+                                                           actionListener="#{surtirOrdenBean.realizarVenta(event)}"
+                                                           styleClass="btn btn-primary btn-lg"
+                                                           action="imprimirVenta.xhtml?faces-redirect=true"
+                                                           >
+                                                
+                                            </p:commandLink>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>
+
+</body>
+</html>

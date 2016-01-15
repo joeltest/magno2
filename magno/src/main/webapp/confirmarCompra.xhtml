@@ -1,0 +1,204 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:siscop="http://www.mytags.com/schema/mytags"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <body>
+
+        <ui:composition template="./WEB-INF/templates/template.xhtml">        
+            <ui:define name="content">  
+                <div class="container">
+                    <div class="row form-group">
+                        <div class="col-xs-12">
+                            <ul class="nav nav-pills nav-justified thumbnail setup-panel">
+                                <li class="disabled"><a href="#step-1">
+                                        <h4 class="list-group-item-heading">Paso 1</h4>
+                                        <p class="list-group-item-text">Llenar carrito de compras</p>
+                                    </a></li>
+                                <li class="active"><a href="#step-2">
+                                        <h4 class="list-group-item-heading">Paso 2</h4>
+                                        <p class="list-group-item-text">Confirmar la orden</p>
+                                    </a></li>
+                                <li class="disabled"><a href="#step-3">
+                                        <h4 class="list-group-item-heading">Paso 3</h4>
+                                        <p class="list-group-item-text">Imprimir orden</p>
+                                    </a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <h:form>
+                    <div class="panel panel-warning">
+                        <div class="panel-heading">
+                            <div class="jumbotron jumbotron-sm" style="background-color: wheat">
+                                <div class="container">
+                                    <div class="row" >
+                                        <div class="col-sm-12 col-lg-12">
+                                            <h3>Por favor confirme el envio de su orden a la sucursal *</h3>
+                                            <div class="col col-lg-8">
+                                                <div class="input-group input-group-lg">
+                                                    <span class="input-group-addon glyphicon glyphicon-user" id="sizing-addon1">
+
+                                                    </span>
+
+                                                    <p:selectOneMenu id="marca"
+                                                                     styleClass="form-control" 
+                                                                     requiredMessage="Especifique la sucursal donde desea surtir su orden.."
+                                                                     value="#{productoIniciarCompraBean.idSucursalSeleccionada}" 
+                                                                     immediate="true"
+                                                                     valueChangeListener="#{productoIniciarCompraBean.valueChangeSucursal}" >
+                                                        <f:selectItem itemLabel="Seleccione..." itemValue="-1"/>
+                                                        <f:selectItems value="#{productoIniciarCompraBean.listaSucursalItems}"/>
+                                                        <f:ajax event="valueChange" render="@this"/>
+                                                    </p:selectOneMenu>  
+
+                                                </div>
+
+                                                <div class="input-group input-group-lg">
+                                                    <span class="input-group-addon glyphicon glyphicon-star" id="sizing-addon1">
+
+                                                    </span>
+                                                    <p:inputText styleClass="form-control"
+                                                                 placeholder=" * Nombre"
+                                                                 requiredMessage="Especifique su nombre.."
+                                                                 value="#{productoIniciarCompraBean.cliente.nombre}"/>
+
+                                                </div>
+
+                                                <div class="input-group input-group-lg">
+                                                    <span class="input-group-addon glyphicon glyphicon-envelope" id="sizing-addon1">
+
+                                                    </span>
+                                                    <p:inputText styleClass="form-control"
+                                                                 placeholder=" * Correo electronico"
+                                                                 requiredMessage="Especifique su correo electronico.."
+                                                                 value="#{productoIniciarCompraBean.cliente.correo}"/>
+
+                                                </div>
+                                                <div class="input-group input-group-lg">
+                                                    <span class="input-group-addon glyphicon glyphicon-phone" id="sizing-addon1">
+
+                                                    </span>
+                                                    <p:inputText styleClass="form-control"
+                                                                 placeholder=" * Telefono"
+                                                                 requiredMessage="Especifique su telefono.."
+                                                                 value="#{productoIniciarCompraBean.cliente.telefono}"/>
+
+                                                </div>
+                                                <div class="input-group input-group-lg">
+                                                    <span class="input-group-addon glyphicon glyphicon-map-marker" id="sizing-addon1">
+
+                                                    </span>
+                                                    <p:inputText styleClass="form-control"
+                                                                 placeholder=" * Dirección "
+                                                                 rendered="true"
+                                                                 requiredMessage="Especifique su dirección.."
+                                                                 value="#{productoIniciarCompraBean.cliente.direccion}"/>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <p:commandLink value="Confirmar envio de orden"
+                                                       actionListener="#{productoIniciarCompraBean.crearOrden(event)}"
+                                                       action="/imprimirOrden.xhtml?faces-redirect=true"
+                                                       styleClass="btn btn-primary btn-lg "
+                                                       >
+                                        </p:commandLink>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <div class="jumbotron jumbotron-sm">
+                                <div class="container">
+                                    <table id="cart" class="table table-hover table-condensed">
+                                        <thead>
+                                            <tr>
+                                                <th style="width:50%">Producto</th>
+                                                <th style="width:10%">Precio</th>
+                                                <th style="width:8%">Cantidad</th>
+                                                <th style="width:22%" class="text-center">Subtotal</th>
+                                                <th style="width:10%"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <ui:repeat value="#{productoIniciarCompraBean.listaProductosCarrito}"
+                                                       var="item">
+                                                <tr>
+                                                    <td data-th="Product">
+                                                        <div class="row">
+                                                            <div class="col-sm-2 hidden-xs">
+                                                                <img src="/magno/AbrirImage?ID=#{item.producto.siArchivo.id}" alt="..."                                                          
+                                                                     class="img-responsive img-rounded center-block" 
+                                                                     />
+                                                            </div>
+                                                            <div class="col-sm-10">
+                                                                <h4 class="nomargin">#{item.producto.nombre}</h4>
+                                                                <p>#{item.producto.descripcion}</p>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td data-th="Price">$ #{item.producto.precio}</td>
+                                                    <td data-th="Quantity">
+                                                        <p:spinner value="#{item.cantidad}" >
+                                                            <p:ajax update="@form"/>
+                                                        </p:spinner>
+                                                    </td>
+                                                    <td data-th="Subtotal" class="text-center">#{item.subTotal}</td>
+                                                    <td class="actions" data-th="">
+                                                        <p:commandLink styleClass="btn btn-danger glyphicon glyphicon-remove"
+                                                                       value="Quitar"
+                                                                       actionListener="#{productoIniciarCompraBean.quitarCarrito(event)}"
+                                                                       >
+                                                            <f:param name="idProducto" value="#{item.producto.id}"/>
+
+                                                        </p:commandLink>
+                                                    </td>
+                                                </tr>
+                                            </ui:repeat>
+                                        </tbody>
+                                        <tfoot>
+                                            <tr class="visible-xs">
+                                                <td class="text-center"><strong>$ #{productoIniciarCompraBean.importeTotal}</strong></td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <p:commandLink value="Seguir Comprando"
+                                                                   styleClass="btn btn-default"
+                                                                   onclick="javascript:history.back(1)"
+                                                                   />
+                                                </td>
+                                                <td colspan="2" class="hidden-xs"></td>
+                                                <td class="hidden-xs text-center"><strong>Total $ #{productoIniciarCompraBean.importeTotal}</strong></td>
+                                                <td>
+                                                    <p:commandLink value="Confirmar envio de orden"
+                                                                   actionListener="#{productoIniciarCompraBean.crearOrden(event)}"
+                                                                   action="/imprimirOrden.xhtml?faces-redirect=true"
+                                                                   styleClass="btn btn-primary btn-lg "
+                                                                   >
+                                                    </p:commandLink>
+                                                </td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div></div>
+                    </div>
+                </h:form>
+
+            </ui:define>
+            <ui:define name="bottom">
+                Tambien vea
+            </ui:define>
+        </ui:composition>
+
+    </body>
+</html>

@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:body>        
+        <ui:composition>
+            <div class="container">
+                <div class="row">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <h3>
+                                Mas Ofertas </h3>
+                        </div>
+                        <div class="col-md-3">
+                            <!-- Controls -->
+                            <div class="controls pull-right hidden-xs">
+                                <a class="left fa fa-chevron-left btn btn-success" href="#carousel-example"
+                                   data-slide="prev"></a><a class="right fa fa-chevron-right btn btn-success" href="#carousel-example"
+                                   data-slide="next"></a>
+                            </div>
+                        </div>
+                    </div>
+                    <h:form>
+                        <div id="carousel-example" class="carousel slide hidden-xs" data-ride="carousel">
+                            <!-- Wrapper for slides -->
+                            <div class="carousel-inner">
+                                <ui:repeat value="#{consultas.listaPrincipalProducto}"
+                                           var="itemPadre">
+                                    <ui:repeat value="#{itemPadre.listaProducto.toArray}"
+                                               var="lista">
+                                        <div class="item">
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <div class="col-item">                                                    
+                                                        <div class="photo" >
+                                                            <img src="/magno/AbrirImage?ID=#{lista.producto.siArchivo.id}" alt="..." class="img-responsive"
+                                                                 style="width: 300px;height: 270px;"
+                                                                 />
+                                                        </div>
+                                                        <div class="info">
+                                                            <div class="row">
+                                                                <div class="rating hidden-sm col-md-6">
+                                                                    <i class="price-text-color fa fa-star"></i><i class="price-text-color fa fa-star">
+                                                                    </i><i class="price-text-color fa fa-star"></i><i class="price-text-color fa fa-star">
+                                                                    </i><i class="fa fa-star"></i>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="price col-md-12">
+                                                                    <h5>
+                                                                        #{lista.producto.nombre}    
+                                                                    </h5>
+                                                                    <h3 class="price-text-color">
+                                                                        $ #{lista.producto.precio}
+                                                                    </h3>
+                                                                </div>
+
+                                                            </div>
+                                                            <div class="separator clear-left">
+                                                                <p class="btn-add">
+                                                                    <i class="fa fa-shopping-cart"></i>
+                                                                    <p:commandLink value="Agregar" actionListener="#{productoIniciarCompraBean.agregarProductoACarrito(event)}"
+                                                                                   action="/carritoCompras.xhtml?faces-redirect=true"
+                                                                                   >
+                                                                        <f:param name="idProducto" value="#{lista.producto.id}"/>
+                                                                    </p:commandLink>
+                                                                </p>
+                                                                <p class="btn-details">
+                                                                    <i class="fa fa-list"></i>
+                                                                    <p:commandLink value="Ver" actionListener="#{productoIniciarCompraBean.verDetalleProducto(event)}"
+                                                                                   >
+                                                                        <f:param name="idProducto" value="#{lista.producto.id}"/>
+                                                                    </p:commandLink>
+                                                                </p>
+                                                            </div>
+                                                            <div class="clearfix">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ui:repeat>
+                                </ui:repeat>
+                                <!-- aqui va el bloque de codigo -->
+                            </div>
+
+                        </div>
+                    </h:form>
+                </div>
+                
+            </div>
+
+        </ui:composition>   
+    </h:body>
+</html>
+

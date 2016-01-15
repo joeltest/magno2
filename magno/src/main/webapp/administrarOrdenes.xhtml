@@ -1,0 +1,223 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:siscop="http://www.mytags.com/schema/mytags"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./WEB-INF/templates/admin/templateAdmin.xhtml">
+
+            <ui:define name="title">
+                Ordenes pendientes al dia de hoy
+            </ui:define>
+
+            <ui:define name="content">
+                <p:outputLabel value="Ordenes realizadas por clientes y que estan pendientes por surtir"/>
+                <h:form id="formDT" >                  
+
+                    <p:messages id="messagess" showDetail="true" autoUpdate="true" globalOnly="true" closable="true"/>                                           
+
+
+                    <siscop:dataTableCatalogo widgetvar="datatableWv"
+                                              lista="#{ordenesPendientesBean.listaOrdenes}"                                      
+                                              rowkey="#{data.id}"
+                                              filas="10"
+                                              >
+                        <ui:define name="definirCuerpo">
+                            <p:column headerText="Orden"                                      
+                                      width="10%"
+                                      > 
+                                <p:outputLabel value="#{data['codigo']}"/>
+                            </p:column> 
+                            <p:column headerText="Cliente"                                    
+                                      width="30%"
+                                      > 
+                                <p:outputLabel value="#{data['clienteId'].nombre}"/>
+                            </p:column> 
+                            <p:column headerText="Estatus"                                      
+                                      width="10%"
+                                      > 
+                                <p:outputLabel value="#{data['estatusId'].nombre}"/>
+                            </p:column> 
+                            <p:column headerText="Fecha"                                      
+                                      width="10%"
+                                      > 
+                                <p:outputLabel value="#{data['fechaGenero']}">
+                                    <f:convertDateTime dateStyle="short"></f:convertDateTime>
+                                </p:outputLabel>
+                            </p:column> 
+                            <p:column headerText="Hora"                                      
+                                      width="10%"
+                                      > 
+                                <p:outputLabel value="#{data['horaGenero']}">
+                                    <f:convertDateTime timeStyle="full" ></f:convertDateTime>
+                                </p:outputLabel>
+                            </p:column> 
+                            <p:column headerText="Importe"                                      
+                                      width="20%"
+                                      > 
+                                <p:outputLabel value="$ #{data['importeTotal']}"/>
+                            </p:column> 
+                            <p:column                                      
+                                width="10%" > 
+                                <p:commandLink value="Surtir"
+                                               actionListener="#{surtirOrdenBean.cargarOrden(event)}"
+                                               action="/surtirOrden.xhtml?faces-redirect=true"
+                                               styleClass="btn btn-success glyphicon glyphicon-ok-sign">
+                                    <f:param name="idCompra" value="#{data['id']}"/>
+                                </p:commandLink>
+                            </p:column> 
+                            <p:column                                      
+                                width="10%"
+                                > 
+                                <p:commandLink value="Cancelar"
+                                               styleClass="btn btn-danger glyphicon glyphicon-remove-sign">
+
+
+                                </p:commandLink>
+                            </p:column> 
+
+                            <p:column                                      
+                                width="10%"
+                                > 
+                                <p:commandLink value="Detalle"
+                                               actionListener="#{ordenesPendientesBean.verDetalle(event)}"
+                                               oncomplete="PF('popup').show();"
+                                               update=":formDialog"
+                                               styleClass="btn btn-warning glyphicon glyphicon-eye-open">
+                                    <f:param name="idOrden" value="#{data['id']}"/>
+
+                                </p:commandLink>
+                            </p:column> 
+                           
+                        </ui:define>
+                    </siscop:dataTableCatalogo>
+                </h:form>
+
+                <h:form id="formDialog">
+                    <p:growl id="messages" showDetail="true" />
+                    <siscop:dialog widgetVar="popup"
+                                   titulo="Detalle"                                                                                      
+                                   >
+                        <ui:define name="cuerpo">  
+
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="invoice-title">
+                                            <h3>
+                                                Order # #{ordenesPendientesBean.ordenSeleccionada.codigo}
+                                                <br/>
+                                                <small>
+                                                    <p:outputLabel value="#{ordenesPendientesBean.ordenSeleccionada.fechaGenero}"
+                                                                   >
+                                                        <f:convertDateTime dateStyle="short"/>
+                                                    </p:outputLabel>
+                                                </small>
+                                            </h3>
+                                            <h3 class="pull-right">#{ordenesPendientesBean.ordenSeleccionada.sucursalId.nombre}</h3>
+                                        </div>
+                                        <hr/>
+                                        <div class="row">
+                                            <div class="col-xs-6">
+                                                <address>
+                                                    <strong>Suc. :</strong><br/>
+                                                    #{ordenesPendientesBean.ordenSeleccionada.sucursalId.direccion}<br/>
+                                                    #{ordenesPendientesBean.ordenSeleccionada.sucursalId.colonia}<br/>
+                                                    #{ordenesPendientesBean.ordenSeleccionada.sucursalId.calle}<br/>
+                                                    #{ordenesPendientesBean.ordenSeleccionada.sucursalId.ciudad}
+                                                </address>
+                                            </div>
+                                            <div class="col-xs-6 text-right">
+                                                <address>
+                                                    <strong>Cliente :</strong><br/>
+                                                    #{ordenesPendientesBean.ordenSeleccionada.clienteId.nombre}<br/>
+                                                    #{ordenesPendientesBean.ordenSeleccionada.clienteId.direccion}<br/>
+                                                    #{ordenesPendientesBean.ordenSeleccionada.clienteId.correo}<br/>
+                                                    #{ordenesPendientesBean.ordenSeleccionada.clienteId.telefono}
+                                                </address>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="container">
+                                            <div class="row">                                                
+                                                <div class="col-md-12">
+                                                    <siscop:dataTableCatalogo widgetvar="datatable"
+                                                                              lista="#{ordenesPendientesBean.listaDetalleOrden}"                                      
+                                                                              rowkey="#{data.id}"
+                                                                              filas="6"
+                                                                              >
+                                                        <ui:define name="definirCuerpo">
+                                                            <p:column                                     
+                                                                width="10%"
+                                                                > 
+                                                                <p:outputLabel value="#{data['productoId'].codigoBarras}"/>
+                                                                <img src="/magno/AbrirImage?ID=#{data.productoId.siArchivo.id}" alt="..."                                                          
+                                                                     style="width: 100px;height: 100px;"
+                                                                     class="img-responsive img-rounded center-block" 
+                                                                     />
+                                                            </p:column> 
+                                                            <p:column headerText="Producto"                                      
+                                                                      width="10%"
+                                                                      > 
+
+                                                                <p:outputLabel value="#{data['productoId'].nombre}"/>
+                                                            </p:column> 
+                                                            <p:column headerText="Precio"                                      
+                                                                      width="10%"
+                                                                      > 
+                                                                <p:outputLabel value="#{data['productoId'].precio}"/>
+                                                            </p:column>
+                                                            <p:column headerText="Cant."                                      
+                                                                      width="10%"
+                                                                      > 
+                                                                <p:outputLabel value="#{data['cantidad']}"/>
+                                                            </p:column>
+                                                            <p:column headerText="Importe"                                      
+                                                                      width="10%"
+                                                                      > 
+                                                                <p:outputLabel value="#{data['importe']}"/>
+                                                            </p:column>
+                                                        </ui:define>
+                                                    </siscop:dataTableCatalogo>
+                                                </div>                              
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12 right_content">
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </ui:define>
+
+                        <ui:define name="pie">
+                            <div class="text-center">
+                                <p:commandLink value="Cerrar"
+                                               onclick="PF('popup').hide()"
+                                               styleClass="btn btn-default"
+                                               />
+                            </div>
+                        </ui:define>
+                    </siscop:dialog>
+                </h:form>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

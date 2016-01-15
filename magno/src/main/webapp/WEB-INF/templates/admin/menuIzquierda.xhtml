@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:body>
+        <ui:composition>
+            <h:form>
+                <div class="container-fluid main-container">
+                    <!--<div class="col-md-4 sidebar">-->
+                    <ul class="nav nav-pills nav-stacked">
+                        <li class="active">
+                            <p:commandLink value="Administrar Ordenes"                                        
+                                           update="@all"                                           
+                                           action="/faces/ ./administrarOrdenes.xhtml?faces-redirect=true" />
+                        </li>                                                
+                        <li>                            
+                            <p:commandLink value="Productos "                                        
+                                           ajax="false"
+                                           update="@all"
+                                           action="/faces/./admin/productos.xhtml?faces-redirect=true" />
+                        </li>
+                        <li>                            
+                            <p:commandLink value="Ventas "                                        
+                                           ajax="false"
+                                           update="@all"
+                                           action="/faces/./consultaVentas.xhtml?faces-redirect=true" />
+                        </li>
+                        <li>                            
+                            <p:commandLink value="Marcas "                                        
+                                           ajax="false"
+                                           update="@all"
+                                           action="/faces/./admin/marca.xhtml?faces-redirect=true" />
+                        </li>
+                        <li>                            
+                            <p:commandLink value="Categoria padre(Menú)"                                        
+                                           ajax="false"
+                                           update="@all"
+                                           action="/faces/./admin/categoriaPadre.xhtml?faces-redirect=true" />
+                        </li>
+                        <li>                            
+                            <p:commandLink value="Categoria hijo(SubMenú)"                                        
+                                           ajax="false"
+                                           update="@all"
+                                           action="/faces/./admin/categoriaHijo.xhtml?faces-redirect=true" />
+                        </li>
+                        <li>
+                            <!--?faces-redirect=true-->
+                            <p:commandLink value="Ofertas" 
+                                           ajax="false"
+                                           update="@all"
+                                           action="/faces/./admin/ofertas.xhtml?faces-redirect=true" />
+                        </li>
+                        <li>
+                            <p:commandLink value="Empleados" 
+                                           ajax="false"
+                                           update="@all"
+                                           action="/faces/./admin/empleados.xhtml?faces-redirect=true" />
+                        </li>
+                       <!-- <li>
+                            <p:commandLink value="Usuarios" 
+                                           ajax="false"
+                                           update="@all"
+                                           action="/faces/./admin/usuarios.xhtml?faces-redirect=true" />
+                        </li>
+                       -->
+                          
+                            
+                        <a href=""></a>
+
+                        <li class="btn-default">                                                        
+                            <p:commandLink value="Volver a tienda"                                        
+                                           ajax="false"
+                                           update="@all"
+                                           action="/faces/principal.xhtml?faces-redirect=true" />
+                        </li>
+
+                     
+                    </ul>
+
+                </div>
+                <!--</div>-->
+            </h:form>
+        </ui:composition>   
+    </h:body>
+</html>
+

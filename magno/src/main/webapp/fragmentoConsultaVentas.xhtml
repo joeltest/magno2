@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:siscop="http://www.mytags.com/schema/mytags"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <body>
+
+        <ui:composition>       
+
+            <h:form id="lista">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h:panelGrid columns="5">
+                            <h:outputLabel value="Fecha inicio:"/>
+                            <p:calendar value="#{consultaVentas.fechaInicio}"
+                                        placeholder="Fecha de inicio"
+                                        />
+                            <h:outputLabel value="Fecha fin:"/>
+                            <p:calendar value="#{consultaVentas.fechaFin}"
+                                        placeholder="Fecha de fin"
+                                        />
+                            <p:commandLink value="Buscar"
+                                           update="@form"
+                                           styleClass="btn btn-primary "
+                                           actionListener="#{consultaVentas.buscarVentas(event)}"/>
+                        </h:panelGrid>
+                    </div>
+                </div>
+                <div class="pull-right">
+                    <p:commandButton id="printId" value="Imprimir lista" type="button"
+                                     rendered="#{not empty consultaVentas.listaVentaVo}"
+                                     styleClass="btn btn-success glyphicon glyphicon-print"
+                                     >
+                        <p:printer target="lista" />
+                    </p:commandButton>
+                </div>
+                <br></br>
+                <ui:repeat value="#{consultaVentas.listaVentaVo}"
+                           var="venta" >
+
+                    <div class="row">
+                        <div class="col-lg-12 well">
+                            <div class="col col-md-6">
+                                <h:panelGrid columns="2">
+                                    <p:outputLabel value=""/>
+                                    <h3> #{venta.venta.consecutivo} de la orden #{venta.venta.ordenCompra.codigo}</h3>
+                                    <p:outputLabel value="Sucursal : "/>
+                                    <p:outputLabel value="#{venta.venta.ordenCompra.sucursalId.nombre}"/>
+                                    <p:outputLabel value="Fecha : "/>                                     
+                                    <p:outputLabel value="#{venta.venta.fecha}" >
+                                        <f:convertDateTime dateStyle="short"/>
+                                    </p:outputLabel>
+                                    <p:outputLabel value="Vendió : "/>
+                                    <h:outputText value="#{venta.venta.usuario.nombre}"/>
+                                    <p:outputLabel value=" Hora : "/>
+                                    <p:outputLabel value="#{venta.venta.hora}">
+                                        <f:convertDateTime timeStyle="short"/>
+                                    </p:outputLabel>
+                                    <p:outputLabel value="Total : "/>
+                                    <h3>$#{venta.venta.importeTotal}</h3>
+                                </h:panelGrid>
+                            </div>                       
+                        </div>
+                    </div>
+                    <siscop:dataTableCatalogo widgetvar="datatableWv"
+                                              lista="#{venta.detalle}"                               
+                                              rowkey="#{data.id}"
+                                              filas="10"
+                                              >
+                        <ui:define name="definirCuerpo">
+                            <p:column headerText="Foto"                                      
+                                      width="10%"
+                                      > 
+                                <img src="/magno/AbrirImage?ID=#{data['productoId'].id}"
+                                     alt="..."                                                          
+                                     style="width: 100px;height: 100px;"
+                                     class="img-responsive img-rounded center-block" 
+                                     />
+                            </p:column> 
+                            <p:column headerText="Platillo"                                      
+                                      width="10%"
+                                      > 
+                                <p:outputLabel value="#{data['productoId'].nombre}"/>
+                                <br/>
+                                <h:outputText value="#{data['productoId'].descripcion}"/>
+                            </p:column> 
+                            <p:column headerText="Cantidad"                                      
+                                      width="10%"
+                                      > 
+                                <p:outputLabel value="#{data['cantidad']}"/>
+                            </p:column> 
+
+                            <p:column headerText="Precio"                                      
+                                      width="10%"
+                                      > 
+                                <p:outputLabel value="#{data['productoId'].precio}"/>
+                            </p:column> 
+                            <p:column headerText="Importe"                                      
+                                      width="10%"
+                                      > 
+                                <p:outputLabel value="#{data['importe']}">
+                                    <f:convertNumber type="currency" currencySymbol="$" />
+                                </p:outputLabel>
+                            </p:column> 
+                           
+                        </ui:define>
+                    </siscop:dataTableCatalogo>
+
+                </ui:repeat>
+                 <div class="pull-right">
+                    <p:commandButton id="printId2" value="Imprimir lista" type="button"
+                                     rendered="#{not empty consultaVentas.listaVentaVo}"
+                                     styleClass="btn btn-success glyphicon glyphicon-print"
+                                     >
+                        <p:printer target="lista" />
+                    </p:commandButton>
+                </div>
+            </h:form>
+
+
+
+        </ui:composition>
+
+    </body>
+</html>
