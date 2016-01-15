@@ -39,6 +39,18 @@
                     </p:commandButton>
                 </div>
                 <br></br>
+                <ui:fragment rendered="#{not empty consultaVentas.listaVentaVo}">
+                    <div class="row bg-info">Categoria mas vendida</div>                
+                    <h:panelGrid columns="2" columnClasses="left,right" style="width:100%">
+                        <p:chart type="line" model="#{consultaVentas.animatedModel1}"
+                                 style="width:400px;" />
+                        <p:chart type="bar" 
+                                 model="#{consultaVentas.animatedModel2}" 
+                                 style="width:400px;" />
+                    </h:panelGrid>
+                </ui:fragment>
+
+                <br></br>
                 <ui:repeat value="#{consultaVentas.listaVentaVo}"
                            var="venta" >
 
@@ -106,12 +118,12 @@
                                     <f:convertNumber type="currency" currencySymbol="$" />
                                 </p:outputLabel>
                             </p:column> 
-                           
+
                         </ui:define>
                     </siscop:dataTableCatalogo>
 
                 </ui:repeat>
-                 <div class="pull-right">
+                <div class="pull-right">
                     <p:commandButton id="printId2" value="Imprimir lista" type="button"
                                      rendered="#{not empty consultaVentas.listaVentaVo}"
                                      styleClass="btn btn-success glyphicon glyphicon-print"

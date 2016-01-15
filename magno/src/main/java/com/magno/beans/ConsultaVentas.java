@@ -5,10 +5,10 @@
  */
 package com.magno.beans;
 
-import com.magno.servicios.OrdenCompraFacadeLocal;
 import com.magno.servicios.VentaFacadeLocal;
 import com.magno.vo.VentaVo;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
@@ -16,9 +16,14 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.event.ActionEvent;
-import javax.faces.view.ViewScoped;
 import lombok.Getter;
 import lombok.Setter;
+import org.primefaces.model.chart.Axis;
+import org.primefaces.model.chart.AxisType;
+import org.primefaces.model.chart.BarChartModel;
+import org.primefaces.model.chart.ChartSeries;
+import org.primefaces.model.chart.LineChartModel;
+import org.primefaces.model.chart.LineChartSeries;
 
 /**
  *
@@ -46,18 +51,99 @@ public class ConsultaVentas implements Serializable{
     @Getter
     @Setter
     private Date fechaFin;
+    
+    //graficas
+    private LineChartModel animatedModel1;
+    private BarChartModel animatedModel2;
 
+    private void createAnimatedModels() {
+        setAnimatedModel1(initLinearModel());
+        getAnimatedModel1().setTitle("Line Chart");
+        getAnimatedModel1().setAnimate(true);
+        getAnimatedModel1().setLegendPosition("se");
+        
+        Axis yAxis = getAnimatedModel1().getAxis(AxisType.Y);
+        yAxis.setMin(0);
+        yAxis.setMax(10);
+         
+        setAnimatedModel2(initBarModel());
+        getAnimatedModel2().setTitle("Bar Charts");
+        getAnimatedModel2().setAnimate(true);
+        getAnimatedModel2().setLegendPosition("ne");
+        yAxis = getAnimatedModel2().getAxis(AxisType.Y);
+        yAxis.setMin(0);
+        yAxis.setMax(200);
+    }
+    
+     private BarChartModel initBarModel() {
+        BarChartModel model = new BarChartModel();
+ 
+        ChartSeries ventas = new ChartSeries();
+        ventas.setLabel("Ventas");
+        for(VentaVo v : listaVentaVo ){
+            SimpleDateFormat dm = new SimpleDateFormat("dd-MM-yyyy");                    
+            ventas.set(dm.format(v.getVenta().getFecha()), v.getVenta().getImporteTotal().doubleValue());
+        }
+        
+        ChartSeries girls = new ChartSeries();
+        girls.setLabel("Girls");
+        girls.set("2004", 52);
+        girls.set("2005", 60);
+        girls.set("2006", 110);
+        girls.set("2007", 135);
+        girls.set("2008", 120);
+ 
+        model.addSeries(ventas);
+        model.addSeries(girls);
+         
+        return model;
+    }
+     
+     private LineChartModel initLinearModel() {
+        LineChartModel model = new LineChartModel();
+ 
+        LineChartSeries series1 = new LineChartSeries();
+        series1.setLabel("Series 1");
+ 
+        series1.set(1, 2);
+        series1.set(2, 1);
+        series1.set(3, 3);
+        series1.set(4, 6);
+        series1.set(5, 8);
+ 
+        LineChartSeries series2 = new LineChartSeries();
+        series2.setLabel("Series 2");
+ 
+        series2.set(1, 6);
+        series2.set(2, 3);
+        series2.set(3, 2);
+        series2.set(4, 7);
+        series2.set(5, 9);
+ 
+        model.addSeries(series1);
+        model.addSeries(series2);
+         
+        return model;
+    }
+    
     /**
      * Creates a new instance of ConsultaVentas
      */
+    
     public ConsultaVentas() {
     }
     
     public void buscarVentas(ActionEvent event){
         System.out.println("Buscar ");
+        System.out.println(" "+sesion.getUsuarioSesion().getSucursalId().getId());
+        System.out.println(" "+fechaInicio);
+        System.out.println(" "+fechaFin);
             listaVentaVo = ventaServicio.findAll(sesion.getUsuarioSesion().getSucursalId().getId(), fechaInicio, fechaFin);
+            createAnimatedModels();
     }
 
+    /**
+    
     /**
      * @return the sesion
      */
@@ -70,6 +156,22 @@ public class ConsultaVentas implements Serializable{
      */
     public void setSesion(Sesion sesion) {
         this.sesion = sesion;
+    }
+
+    public LineChartModel getAnimatedModel1() {
+        return animatedModel1;
+    }
+
+    public void setAnimatedModel1(LineChartModel animatedModel1) {
+        this.animatedModel1 = animatedModel1;
+    }
+
+    public BarChartModel getAnimatedModel2() {
+        return animatedModel2;
+    }
+
+    public void setAnimatedModel2(BarChartModel animatedModel2) {
+        this.animatedModel2 = animatedModel2;
     }
 
        
