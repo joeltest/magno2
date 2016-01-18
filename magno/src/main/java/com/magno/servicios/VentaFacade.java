@@ -30,7 +30,7 @@ public class VentaFacade extends AbstractFacade<Venta> implements VentaFacadeLoc
     private EntityManager em;
 
     @EJB
-    private DetalleOrdenCompraFacade detalleCompraService;
+    private DetalleOrdenCompraFacadeLocal detalleCompraService;
 
     @EJB
     private ConsecutivoFacadeLocal consecutivoService;
@@ -86,8 +86,9 @@ public class VentaFacade extends AbstractFacade<Venta> implements VentaFacadeLoc
                 + " WHERE v.fecha BETWEEN :fechaInicio AND :fechaFin "
                 + " AND v.ordenCompra.sucursalId.id = :idSucursal"
                 + " AND v.cancelada = 'False' ")
-                .setParameter("fechaInicio", fechaInicio)
+                .setParameter("fechaInicio", fechaInicio)                
                 .setParameter("fechaFin", fechaFin)
+                .setParameter("idSucursal", idSucursal)
                 .getResultList();
 
         List<VentaVo> listaRetorno = new ArrayList<>();

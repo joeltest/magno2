@@ -67,7 +67,7 @@ public class ConsultaVentas implements Serializable{
         yAxis.setMax(10);
          
         setAnimatedModel2(initBarModel());
-        getAnimatedModel2().setTitle("Bar Charts");
+        getAnimatedModel2().setTitle("Ventas y Ordenes");
         getAnimatedModel2().setAnimate(true);
         getAnimatedModel2().setLegendPosition("ne");
         yAxis = getAnimatedModel2().getAxis(AxisType.Y);
@@ -85,16 +85,24 @@ public class ConsultaVentas implements Serializable{
             ventas.set(dm.format(v.getVenta().getFecha()), v.getVenta().getImporteTotal().doubleValue());
         }
         
-        ChartSeries girls = new ChartSeries();
-        girls.setLabel("Girls");
-        girls.set("2004", 52);
-        girls.set("2005", 60);
-        girls.set("2006", 110);
-        girls.set("2007", 135);
-        girls.set("2008", 120);
+        ChartSeries ordenLista = new ChartSeries();
+        
+        ordenLista.setLabel("Ordenes");
+        
+        for(VentaVo v : listaVentaVo ){
+            SimpleDateFormat dm = new SimpleDateFormat("dd-MM-yyyy");                    
+            /*String str = v.getVenta().getOrdenCompra().getCodigo()
+                    +" "
+                    +v.getVenta().getOrdenCompra().getClienteId().getNombre()
+                    +" "+v.getVenta().getOrdenCompra().getImporteTotal().doubleValue();*/
+            
+            ordenLista.set(dm.format(v.getVenta().getOrdenCompra().getFechaGenero()),
+                    v.getVenta().getOrdenCompra().getImporteTotal().doubleValue());
+        }
+
  
         model.addSeries(ventas);
-        model.addSeries(girls);
+        model.addSeries(ordenLista);
          
         return model;
     }

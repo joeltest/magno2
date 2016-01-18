@@ -40,13 +40,14 @@
                 </div>
                 <br></br>
                 <ui:fragment rendered="#{not empty consultaVentas.listaVentaVo}">
-                    <div class="row bg-info">Categoria mas vendida</div>                
+                    <div class="row bg-info">Ventas Vs Ordenes </div>                
                     <h:panelGrid columns="2" columnClasses="left,right" style="width:100%">
-                        <p:chart type="line" model="#{consultaVentas.animatedModel1}"
-                                 style="width:400px;" />
+                        <!--<p:chart type="line" model="#{consultaVentas.animatedModel1}"
+                                 style="width:400px;" />-->
                         <p:chart type="bar" 
+                                 responsive="true"
                                  model="#{consultaVentas.animatedModel2}" 
-                                 style="width:400px;" />
+                                 style="width:900px;height: 500px" />
                     </h:panelGrid>
                 </ui:fragment>
 
