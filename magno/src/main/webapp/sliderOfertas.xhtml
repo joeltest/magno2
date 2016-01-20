@@ -4,48 +4,93 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <body>
 
         <ui:composition >
             <div class="row">
                 <h:form>
-                    <p:carousel value="#{sesion.listaProductoSlider}" 
-                                circular="true"
-                                autoPlayInterval="10000"  
-                                numVisible="1"
-                                style="width: 300px;height: 400px;"
-                                var="item">
-                        <div class="col-md-2 column productbox">
-                            <img src="/magno/AbrirImage?ID=#{item.siArchivo.id}" alt="..." 
-                                 data-toggle="magnify"
-                                 class="img-responsive img-rounded center-block" 
-                                 />
-                            <div class="producttitle">#{item.marcaId.nombre} - #{item.nombre}
-                                <div class="productprice">
-                                    <div class="pull-right">
-                                        <h:commandLink styleClass="btn btn-warning btn-product glyphicon glyphicon-shopping-cart"                                                                                   
-                                                       action="/carritoCompras.xhtml?faces-redirect=true"
-                                                       actionListener="#{productoIniciarCompraBean.agregarProductoACarrito(event)}"
-                                                       value="Agregar">   
-                                            <f:param name="idProducto" value="#{item.id}"/>
-                                        </h:commandLink>
-                                        <h:commandLink styleClass="btn btn-success btn-product glyphicon glyphicon-modal-window "
-                                                       action="/detalleProducto.xhtml?faces-redirect=true"
-                                                       actionListener="#{productoIniciarCompraBean.verDetalleProducto(event)}"
-                                                       value="Detalle"                                                               
-                                                       >
-                                            <f:param name="idProducto" value="#{item.id}"/>
-                                        </h:commandLink>
-                                    </div>
-                                    <div class="pricetext">
-                                        $ #{item.precio}
-                                    </div>
+
+
+                    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                        <!-- Indicators -->
+                        <ol class="carousel-indicators">
+                            <ui:repeat value="#{sesion.listaProductoSlider}"
+                                       varStatus="i"
+                                       var="slide">  
+                                <c:if test="#{i==0}">
+                                    <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>                               
+                                </c:if>
+                                <c:if test="#{i > 0}">
+                                    <li data-target="#carousel-example-generic" data-slide-to="#{i}"></li>                               
+                                </c:if>
+                            </ui:repeat>
+                        </ol>
+
+                        <!-- Wrapper for slides -->
+                        <div class="carousel-inner" role="listbox">
+                            <div class="item active">
+                                <div class="carousel-caption">
+                                    Las mejores ofertas
                                 </div>
                             </div>
+                            <ui:repeat value="#{sesion.listaProductoSlider}"
+                                       varStatus="i"
+                                       var="item">  
+                                <div class="item" style="height: 200px;">    
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <img src="/magno/AbrirImage?ID=#{item.siArchivo.id}" alt="..." 
+                                                 data-toggle="magnify"
+                                                 class="img-responsive img-rounded center-block" 
+                                                 />
+                                        </div>
+                                        <div class="col-md-6">
+                                            #{item.marcaId.nombre} - #{item.nombre}
+                                        </div>                                        
+                                        <div class="col-md-4">
+                                            <div class="row">
+                                                <p>Oferta¡¡¡</p>
+                                                $ #{item.precio}                                                
+                                            </div>
+                                            <div class="row">
+                                                <h:commandLink styleClass="btn btn-warning btn-product glyphicon glyphicon-shopping-cart"                                                                                   
+                                                               action="/carritoCompras.xhtml?faces-redirect=true"
+                                                               actionListener="#{productoIniciarCompraBean.agregarProductoACarrito(event)}"
+                                                               value="Agregar">   
+                                                    <f:param name="idProducto" value="#{item.id}"/>
+                                                </h:commandLink>
+                                                <h:commandLink styleClass="btn btn-success btn-product glyphicon glyphicon-modal-window "
+                                                               action="/detalleProducto.xhtml?faces-redirect=true"
+                                                               actionListener="#{productoIniciarCompraBean.verDetalleProducto(event)}"
+                                                               value="Detalle"                                                               
+                                                               >
+                                                    <f:param name="idProducto" value="#{item.id}"/>
+                                                </h:commandLink>
+                                            </div>                                            
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </ui:repeat>                            
                         </div>
-                    </p:carousel>
+
+                        <!-- Controls -->
+                        <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+                            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+                            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                    <div class="panel panel-footer">
+                        Ofertas que no puedes dejar pasar
+                    </div>
+
                 </h:form>
             </div>
             <style>
