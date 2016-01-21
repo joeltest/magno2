@@ -42,6 +42,7 @@
             <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'/>
             <div >
                 <h:form>
+                    <!-- <ui:include src="login_cabecera.xhtml"/>-->
                     <div class="fb-profile">
                         <ui:fragment rendered="#{sesion.sucursalActiva.id eq 1}">
                             <img align="left" class="fb-image-lg" 
@@ -54,17 +55,7 @@
                             <img align="left" class="fb-image-profile thumbnail" src="#{request.contextPath}/resources/img/magno1.jpg" alt="Profile image example"/>
                         </ui:fragment>
                         <div class="fb-profile-text">
-                            <h3>Magno express sucursal 
-                                <h:selectOneMenu value="#{sesion.sucursalSeleccionada}"
-                                                 valueChangeListener="#{sesion.cambiarSucursal}"
-                                                 
-                                                 >
-                                    <f:selectItems value="#{sesion.listaSucursales}"
-                                                   />
-                                    <f:ajax event="change"
-                                            render="@all" 
-                                            execute="@all"/>
-                                </h:selectOneMenu>
+                            <h3>Magno express sucursal #{sesion.sucursalSeleccionada}                               
                             </h3>
                             <p>#{sesion.sucursalActiva.calle},#{sesion.sucursalActiva.colonia},#{sesion.sucursalActiva.ciudad} #{sesion.sucursalActiva.estado}. CP : #{sesion.sucursalActiva.cp} </p>
                         </div>

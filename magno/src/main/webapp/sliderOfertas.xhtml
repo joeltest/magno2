@@ -20,26 +20,18 @@
                             <ui:repeat value="#{sesion.listaProductoSlider}"
                                        varStatus="i"
                                        var="slide">  
-                                <c:if test="#{i==0}">
-                                    <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>                               
-                                </c:if>
-                                <c:if test="#{i > 0}">
-                                    <li data-target="#carousel-example-generic" data-slide-to="#{i}"></li>                               
-                                </c:if>
+                                <li data-target="#carousel-example-generic" data-slide-to="#{i}" class="#{i.first ? 'active':''}"></li>                               
                             </ui:repeat>
                         </ol>
 
                         <!-- Wrapper for slides -->
                         <div class="carousel-inner" role="listbox">
-                            <div class="item active">
-                                <div class="carousel-caption">
-                                    Las mejores ofertas
-                                </div>
-                            </div>
+
                             <ui:repeat value="#{sesion.listaProductoSlider}"
                                        varStatus="i"
                                        var="item">  
-                                <div class="item" style="height: 200px;">    
+
+                                <div class="item #{i.first ? 'active':''}" style="height: 200px;">    
                                     <div class="row">
                                         <div class="col-md-2">
                                             <img src="/magno/AbrirImage?ID=#{item.siArchivo.id}" alt="..." 
@@ -48,12 +40,16 @@
                                                  />
                                         </div>
                                         <div class="col-md-6">
-                                            #{item.marcaId.nombre} - #{item.nombre}
+                                            <h2> #{item.marcaId.nombre}</h2>
+                                            <h3>#{item.nombre}</h3>
+                                            <p>#{item.categoriaId.nombre}</p> 
+                                            
                                         </div>                                        
                                         <div class="col-md-4">
-                                            <div class="row">
-                                                <p>Oferta¡¡¡</p>
-                                                $ #{item.precio}                                                
+                                            <div class="row">          
+                                                 <h2 class="text-danger">Oferta¡¡¡</h2>
+                                                <h2>$ #{item.precio}</h2>
+                                                <h3 class="text-muted">Antes <s> $ #{item.precio + 20}</s></h3>
                                             </div>
                                             <div class="row">
                                                 <h:commandLink styleClass="btn btn-warning btn-product glyphicon glyphicon-shopping-cart"                                                                                   
