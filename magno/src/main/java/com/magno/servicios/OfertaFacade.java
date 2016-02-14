@@ -6,6 +6,7 @@
 package com.magno.servicios;
 
 import com.magno.magno.entity.Oferta;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -26,6 +27,13 @@ public class OfertaFacade extends AbstractFacade<Oferta> implements OfertaFacade
 
     public OfertaFacade() {
         super(Oferta.class);
+    }
+
+    @Override
+    public List<Oferta> listaOfertas(int idSucursal) {
+        return em.createQuery("SELECT o FROM Oferta o WHERE o.sucursalId.id = :idSucursal AND o.eliminado='False'")
+                .setParameter("idSucursal", idSucursal)
+                .getResultList();
     }
     
 }

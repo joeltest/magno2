@@ -17,13 +17,13 @@
 
             <ui:define name="content">
                 <div class="col col-md-12">
-
+                    <p:messages id="messagess" showDetail="true" autoUpdate="true" globalOnly="true" closable="true"/>          
                     <div class="col col-md-4">
                         <h:form id="fomulario_">
 
                             <div class="panel panel-default">
                                 <div class="panel-heading">
-                                    <p:commandLink actionListener="#{ofertaCrudBean.preprarNuevoRegistro()}"
+                                    <p:commandLink actionListener="#{ofertaCrudBean.prepararNuevo(e)}"
                                                    update="@form"
                                                    styleClass="btn btn-info"
                                                    value="Nuevo registro"
@@ -35,8 +35,23 @@
                                 </div>
 
                                 <div class="panel panel-body ">
+
                                     <!-- Area de insercion de codigo -->
+                                    <h:panelGrid columns="1" >
+                                        <p:fileUpload 
+                                            fileUploadListener="#{ofertaCrudBean.uploadAttachment}"                                
+                                            mode="advanced" 
+                                            multiple="false"
+                                            sizeLimit="900000000"
+                                            allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+                                            uploadLabel="Cargar" 
+                                            cancelLabel="Cancelar" 
+                                            label="Buscar Imagen"
+                                            required="true" />
+
+                                    </h:panelGrid>
                                     <h:panelGrid columns="3">
+
 
                                         <p:outputLabel value="Nombre : "/>                                
                                         <p:inputText id="nombre" value="#{ofertaCrudBean.selected.nombre}" 
@@ -46,17 +61,19 @@
 
                                         <p:message id="msgnombre" for="nombre"/> 
 
-                                        <p:outputLabel value="Sucursal :"/>                   
-                                        <p:selectOneMenu id="sucursal"
-                                                         value="#{ofertaCrudBean.idSucursalSeleccionado}" 
-                                                         immediate="true"
-                                                         valueChangeListener="#{ofertaCrudBean.valueChangeSucursal}" >
-                                            <f:selectItem itemLabel="Seleccione..." itemValue="-1"/>
-                                            <f:selectItems value="#{ofertaCrudBean.listaSucursalItems}"/>
-                                            <f:ajax event="valueChange" render="@this"/>
-                                        </p:selectOneMenu>                                                         
-                                        <p:message id="msgsucursal" for="sucursal"/> 
+                                        <p:outputLabel value="Descripción : "/>                                
+                                        <p:inputTextarea id="descr" value="#{ofertaCrudBean.selected.descripcion}" 
+                                                         placeholder="Descripcion de oferta"
+                                                         styleClass="form-control"
+                                                         disabled="#{ofertaCrudBean.OPERACION eq 'DETALLE'}"
+                                                         />  
 
+                                        <p:message id="msgdescr" for="descr"/> 
+
+                                        <p:outputLabel value="Sucursal :"/>                   
+                                        <p:outputLabel value="#{sesion.sucursalAdmin.nombre}"/>                   
+                                        <p:outputLabel value=""/>                   
+                                                                                               
                                         <p:outputLabel id="ffin" value="Fecha fin : "/>                                
                                         <p:calendar value="#{ofertaCrudBean.selected.fechaFin}"
                                                     >
@@ -68,13 +85,13 @@
                                                     >
                                         </p:calendar>
                                         <p:message id="msgfinicio" for="finicio"/> 
-                                        
+
                                         <p:outputLabel id="porcentaje"
                                                        value="Porcentaje : "/>  
                                         <p:spinner value="#{ofertaCrudBean.selected.porcentaje}"
-                                                   
+
                                                    />
-                                                   
+
                                         <p:message id="msgporcentaje" for="porcentaje"/> 
 
                                     </h:panelGrid>
@@ -91,14 +108,14 @@
                                     <p:commandLink value="Guardar Modificación" 
                                                    rendered="#{ofertaCrudBean.OPERACION eq 'MODIFICAR'}"
                                                    update="@form :data_"
-                                                   actionListener="#{ofertaCrudBean.modificar(event)}"
+                                                   actionListener="#{ofertaCrudBean.modificarRegistro(event)}"
                                                    styleClass="btn btn-primary"
                                                    >
 
                                     </p:commandLink>
                                     <p:commandLink value="Cancelar"                                                    
                                                    update="@form :data_"
-                                                   actionListener="#{ofertaCrudBean.preprarNuevoRegistro()}"
+                                                   actionListener="#{ofertaCrudBean.prepararNuevo(e)}"
                                                    styleClass="btn btn-default"
                                                    >
 
@@ -111,61 +128,203 @@
                     </div>
                     <div class="col col-md-8">
                         <h:form id="data_">
-                            <p:dataTable value="#{ofertaCrudBean.allEntidades}"
+                            <p:dataTable value="#{ofertaCrudBean.listaOfertas}"
                                          var="item"
                                          >
+                                <p:column width="60%">
+                                    <img src="/magno/AbrirImage?ID=#{item['siArchivo'].id}" alt="..." 
+                                         data-toggle="magnify" 
+                                         class="img-thumbnail" 
+                                         height="300px" width="300px"/>
+                                </p:column>
                                 <p:column headerText="Nombre" width="60%">
                                     <h:panelGrid columns="2" styleClass="panel">
-                                    <h:outputLabel value="Nombre "/>
-                                    <h:outputText value="#{item.nombre}"/>
-                                    <p:outputLabel value="Sucursal"/>
-                                    <h:outputText value="#{item.sucursalId.nombre}"/>
-                                    <p:outputLabel value="Fecha inicio "/>
-                                    <p:outputLabel value="#{item.fechaInicio}">
-                                        <f:convertDateTime type="date" dateStyle="short"/>
-                                    </p:outputLabel>
-                                    <p:outputLabel value="Fecha fin"/>
-                                    <p:outputLabel value="#{item.fechaFin}">
-                                        <f:convertDateTime type="date" dateStyle="short"/>
-                                    </p:outputLabel>
-                                    
-                                   <p:outputLabel value="Descuento"/>
-                                   <p:outputLabel value="#{item.porcentaje} %"/>
-                                    
+                                        <h:outputLabel value="Nombre "/>
+                                        <h:outputText value="#{item.nombre}"/>
+                                        <h:outputLabel value="Descripción "/>
+                                        <h:outputText value="#{item.descripcion}"/>
+                                        <p:outputLabel value="Sucursal"/>
+                                        <h:outputText value="#{item.sucursalId.nombre}"/>
+                                        <p:outputLabel value="Fecha inicio "/>
+                                        <p:outputLabel value="#{item.fechaInicio}">
+                                            <f:convertDateTime type="date" dateStyle="short"/>
+                                        </p:outputLabel>
+                                        <p:outputLabel value="Fecha fin"/>
+                                        <p:outputLabel value="#{item.fechaFin}">
+                                            <f:convertDateTime type="date" dateStyle="short"/>
+                                        </p:outputLabel>
+
+                                        <p:outputLabel value="Descuento"/>
+                                        <p:outputLabel value="#{item.porcentaje} %"/>
+                                        <h:panelGrid columns="2">
+                                            <p:commandLink value="Eliminar"
+                                                           styleClass="btn bnt-danger"
+                                                           update="@(all)"
+                                                           actionListener="#{ofertaCrudBean.eliminacion(event)}"
+                                                           >
+                                                <f:param name="idParam" value="#{item.id}"/>
+                                            </p:commandLink>
+                                            <p:commandLink value="Detalle"
+                                                           styleClass="btn bnt-default"
+                                                           update="@this :fomulario_"
+                                                           actionListener="#{ofertaCrudBean.preprarDetalle(event)}"
+                                                           >
+                                                <f:param name="idParam" value="#{item.id}"/>
+                                            </p:commandLink>
+                                        </h:panelGrid>
                                     </h:panelGrid>
                                 </p:column>
-                                <p:column>
-                                    <p:commandLink value="Modificar" 
-                                                   actionListener="#{ofertaCrudBean.prepararModificacion()}"
-                                                   update="@this :fomulario_"
 
-                                                   >
-                                        <f:param name="idParam" value="#{item.id}"/>
-
-                                    </p:commandLink>
-
-                                </p:column>
-                                <p:column>
-                                    <p:commandLink value="Eliminar"
-                                                   update="@this :fomulario_"
-                                                   actionListener="#{ofertaCrudBean.eliminacion(event)}"
-                                                   >
-                                        <f:param name="idParam" value="#{item.id}"/>
-                                    </p:commandLink>
-                                </p:column>
-                                <p:column>
-                                    <p:commandLink value="Detalle"
-                                                   update="@this :fomulario_"
-                                                   actionListener="#{ofertaCrudBean.preprarDetalle(event)}"
-                                                   >
-                                        <f:param name="idParam" value="#{item.id}"/>
-                                    </p:commandLink>
-                                </p:column>
                             </p:dataTable>
+
+
+                            <!--- Ofertas -->
+
+                            <!--  -->
+                            VISTA PREVIA 
+                            <div class="container">
+                                <div class="row">
+                                    <!-- Boxes de Acoes -->
+                                    <div class="col-xs-12 col-sm-6 col-lg-4">
+                                        <ui:repeat value="#{ofertaCrudBean.listaOfertas}"
+                                                   var="item"
+                                                   varStatus="index">
+
+
+                                            <div class="col-xs-12">
+                                                <div class="offer offer-radius offer-primary">
+                                                    <div class="shape">
+                                                        <div class="shape-text">                                                          	
+                                                            <h:outputText value="#{item.fechaFin}">
+                                                                <f:convertDateTime dateStyle="short" type="date"></f:convertDateTime>
+                                                            </h:outputText>
+                                                        </div>
+                                                    </div>
+                                                    <div class="offer-content">
+                                                        <div class="row">
+                                                            <div class="col col-md-6">
+                                                                <img class=" img-responsive"
+                                                                     src="/magno/AbrirImage?ID=#{item['siArchivo'].id}"
+                                                                     />
+                                                            </div>
+                                                            <div class="col col-md-6">
+                                                                <h3 class="lead">
+                                                                    #{item.nombre}
+                                                                </h3>						
+                                                                <p>
+                                                                    #{item.descripcion}
+
+                                                                </p>
+                                                            </div>
+                                                        </div>
+
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                        </ui:repeat>
+                                    </div>
+                                </div>
+                            </div>
+
                         </h:form>
                     </div>
 
                 </div>
+
+                <style>
+                    .shape{    
+                        border-style: solid; border-width: 0 70px 40px 0; float:right; height: 0px; width: 0px;
+                        -ms-transform:rotate(360deg); /* IE 9 */
+                        -o-transform: rotate(360deg);  /* Opera 10.5 */
+                        -webkit-transform:rotate(360deg); /* Safari and Chrome */
+                        transform:rotate(360deg);
+                    }
+                    .offer{
+                        background:#fff; border:1px solid #ddd; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); margin: 15px 0; overflow:hidden;
+                    }
+                    .offer:hover {
+                        -webkit-transform: scale(1.1); 
+                        -moz-transform: scale(1.1); 
+                        -ms-transform: scale(1.1); 
+                        -o-transform: scale(1.1); 
+                        transform:rotate scale(1.1); 
+                        -webkit-transition: all 0.4s ease-in-out; 
+                        -moz-transition: all 0.4s ease-in-out; 
+                        -o-transition: all 0.4s ease-in-out;
+                        transition: all 0.4s ease-in-out;
+                    }
+                    .shape {
+                        border-color: rgba(255,255,255,0) #d9534f rgba(255,255,255,0) rgba(255,255,255,0);
+                    }
+                    .offer-radius{
+                        border-radius:7px;
+                    }
+                    .offer-danger {	border-color: #d9534f; }
+                    .offer-danger .shape{
+                        border-color: transparent #d9534f transparent transparent;
+                    }
+                    .offer-success {	border-color: #5cb85c; }
+                    .offer-success .shape{
+                        border-color: transparent #5cb85c transparent transparent;
+                    }
+                    .offer-default {	border-color: #999999; }
+                    .offer-default .shape{
+                        border-color: transparent #999999 transparent transparent;
+                    }
+                    .offer-primary {	border-color: #428bca; }
+                    .offer-primary .shape{
+                        border-color: transparent #428bca transparent transparent;
+                    }
+                    .offer-info {	border-color: #5bc0de; }
+                    .offer-info .shape{
+                        border-color: transparent #5bc0de transparent transparent;
+                    }
+                    .offer-warning {	border-color: #f0ad4e; }
+                    .offer-warning .shape{
+                        border-color: transparent #f0ad4e transparent transparent;
+                    }
+
+                    .shape-text{
+                        color:#fff; font-size:12px; font-weight:bold; position:relative; right:-40px; top:2px; white-space: nowrap;
+                        -ms-transform:rotate(30deg); /* IE 9 */
+                        -o-transform: rotate(360deg);  /* Opera 10.5 */
+                        -webkit-transform:rotate(30deg); /* Safari and Chrome */
+                        transform:rotate(30deg);
+                    }	
+                    .offer-content{
+                        padding:0 20px 10px;
+                    }
+                    @media (min-width: 487px) {
+                        .container {
+                            max-width: 750px;
+                        }
+                        .col-sm-6 {
+                            width: 50%;
+                        }
+                    }
+                    @media (min-width: 900px) {
+                        .container {
+                            max-width: 970px;
+                        }
+                        .col-md-4 {
+                            width: 33.33333333333333%;
+                        }
+                    }
+
+                    @media (min-width: 1200px) {
+                        .container {
+                            max-width: 1170px;
+                        }
+                        .col-lg-3 {
+                            width: 25%;
+                        }
+                    }
+
+                </style>
+
             </ui:define>
 
         </ui:composition>

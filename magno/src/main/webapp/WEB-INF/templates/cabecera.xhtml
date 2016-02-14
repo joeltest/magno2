@@ -40,33 +40,34 @@
                 }
             </style>
             <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'/>
-            <div >
-                <h:form>
-                     <ui:include src="login_cabecera.xhtml"/>
-                    <div class="fb-profile">
-                        <ui:fragment rendered="#{sesion.sucursalActiva.id eq 1}">
-                            <img align="left" class="fb-image-lg" 
-                                 src="#{request.contextPath}/resources/img/magnoOmetepec.jpg" alt="Profile image example"/>
-                            <img align="left" class="fb-image-profile thumbnail" src="#{request.contextPath}/resources/img/magno1.jpg" alt="Profile image example"/>
-                        </ui:fragment>
-                        <ui:fragment rendered="#{sesion.sucursalActiva.id ne 1}">
-                            <img align="left" class="fb-image-lg" 
-                                 src="https://i.ytimg.com/vi/k0B6YRKncnE/maxresdefault.jpg" alt="Profile image example"/>
-                            <img align="left" class="fb-image-profile thumbnail" src="#{request.contextPath}/resources/img/magno1.jpg" alt="Profile image example"/>
-                        </ui:fragment>
-                        <div class="fb-profile-text">
-                            <h3><p>Magno express sucursal #{sesion.sucursalSeleccionada}</p>
-                            </h3>
-                            <p>#{sesion.sucursalActiva.calle},#{sesion.sucursalActiva.colonia},#{sesion.sucursalActiva.ciudad} #{sesion.sucursalActiva.estado}. CP : #{sesion.sucursalActiva.cp} </p>
-                        </div>
-                    </div>
+            <h:form>
 
-                    <!-- <p:commandLink value="Sistema" 
-                                   styleClass="btn btn-default"
-                                   ajax="false"
-                                   action="./administrarOrdenes.xhtml"/>-->
-                </h:form>
-            </div> <!-- /container -->  
+                <ui:include src="login_cabecera.xhtml"/>
+                <div class="fb-profile">
+                    <ui:fragment rendered="#{sesion.sucursalActiva.id eq 1}">
+                        <img align="left" class="fb-image-lg" 
+                             src="#{request.contextPath}/resources/img/magnoOmetepec.jpg" alt="Profile image example"/>
+                        <img align="left" class="fb-image-profile thumbnail" src="#{request.contextPath}/resources/img/magno1.jpg" alt="Profile image example"/>
+                    </ui:fragment>
+                    <ui:fragment rendered="#{sesion.sucursalActiva.id ne 1}">
+                        <img align="left" class="fb-image-lg" 
+                             src="https://i.ytimg.com/vi/k0B6YRKncnE/maxresdefault.jpg" alt="Profile image example"/>
+                        <img align="left" class="fb-image-profile thumbnail" src="#{request.contextPath}/resources/img/magno1.jpg" alt="Profile image example"/>
+                    </ui:fragment>
+                    <div class="fb-profile-text">
+                        <h4><p>Magno express - #{sesion.sucursalActiva.nombre} </p>
+                        </h4>
+                        <p>#{sesion.sucursalActiva.calle},#{sesion.sucursalActiva.colonia},#{sesion.sucursalActiva.ciudad} #{sesion.sucursalActiva.estado}. CP : #{sesion.sucursalActiva.cp} </p>
+                    </div>
+                </div>
+                <ui:fragment rendered="#{not empty sesion.clienteSesion}">
+                    <div class="label label-info" >BIENVENIDO <h:outputLabel value="#{sesion.clienteSesion.nombre}"/></div>
+                </ui:fragment>
+                <!-- <p:commandLink value="Sistema" 
+                               styleClass="btn btn-default"
+                               ajax="false"
+                               action="./administrarOrdenes.xhtml"/>-->
+            </h:form>
 
         </ui:composition>   
     </h:body>

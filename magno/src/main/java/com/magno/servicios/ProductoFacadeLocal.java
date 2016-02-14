@@ -31,7 +31,7 @@ public interface ProductoFacadeLocal {
     List<Producto> findAllToday();
     
     List<ProductoListaVo> findAllPrincipal();
-    
+
     List<Producto> findAllProductos(int idSucursal);
     
     List<Producto> findAllProductos(int idSucursal,int idCategoria);

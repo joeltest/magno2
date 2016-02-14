@@ -11,8 +11,24 @@
 
         <ui:composition template="./WEB-INF/templates/template.xhtml">        
             <ui:define name="content">  
+                <div class="row">
+                    <ui:fragment rendered="#{empty sesion.clienteSesion}">
+                        <h:outputText value="Para poder terminar la orden de compra es necesario que accese con su usuario y clave al sistema.."
+                                      styleClass="alert alert-danger"
+                                      >
+                        </h:outputText>
+                        <p:commandLink value="Clic aquí para Accesar al sistema "
+                                       styleClass="btn btn-warning btn-lg"
+                                       action="loginCliente.xhtml"
+                                       ></p:commandLink>
+                    </ui:fragment>
+                    <ui:fragment rendered="#{not empty sesion.clienteSesion}">
+                        <h:outputLabel value="Bienvenido #{sesion.clienteSesion.nombre}"
+                                       styleClass="alert alert-success"
+                                       />
 
-
+                    </ui:fragment>
+                </div>
                 <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet"/>
 
                 <div class="container">
@@ -83,8 +99,8 @@
                                                                            actionListener="#{productoIniciarCompraBean.cambiarCantidad(event)}"
 
                                                                            >
-                                                            
-                                                                
+
+
                                                             </h:commandLink>
                                                         </span>
                                                     </div>
@@ -138,12 +154,17 @@
                                             <strong>Total $ #{productoIniciarCompraBean.importeTotal}</strong>
                                         </h3>
                                     </td>
-                                    <td>
+                                    <td>                                        
                                         <p:commandLink value="Crear Orden"
-                                                       rendered="#{not empty productoIniciarCompraBean.listaProductosCarrito}"
+                                                       rendered="#{(not empty productoIniciarCompraBean.listaProductosCarrito) and (not empty sesion.clienteSesion) }"
                                                        actionListener="#{productoIniciarCompraBean.iniciarCrearOrden(event)}"
                                                        action="confirmarCompra.xhtml?faces-redirect=true"
                                                        styleClass="btn btn-success btn-block"
+                                                       />
+                                        <p:commandLink value="Crear Orden"
+                                                       action="confirmarCompra.xhtml?faces-redirect=true"
+                                                       styleClass="btn btn-default btn-block"
+                                                       rendered="#{(not empty productoIniciarCompraBean.listaProductosCarrito) and (empty sesion.clienteSesion) }"
                                                        />
                                     </td>
                                 </tr>

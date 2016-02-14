@@ -16,5 +16,6 @@ import javax.ejb.Local;
 @Local
 public interface OfertaFacadeLocal extends FacadeLocal<Oferta>{
 
+    List<Oferta> listaOfertas(int idSucursal);
     
 }

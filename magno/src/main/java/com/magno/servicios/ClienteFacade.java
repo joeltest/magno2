@@ -8,6 +8,7 @@ package com.magno.servicios;
 import com.magno.magno.entity.Cliente;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
 /**
@@ -16,6 +17,7 @@ import javax.persistence.PersistenceContext;
  */
 @Stateless
 public class ClienteFacade extends AbstractFacade<Cliente> implements ClienteFacadeLocal {
+
     @PersistenceContext(unitName = "magnoPU")
     private EntityManager em;
 
@@ -27,5 +29,22 @@ public class ClienteFacade extends AbstractFacade<Cliente> implements ClienteFac
     public ClienteFacade() {
         super(Cliente.class);
     }
-    
+
+    @Override
+    public Cliente login(String usuario, String clave) {
+        Cliente c = null;
+
+        try {
+
+            c = (Cliente) em.createQuery("SELECT c FROM Cliente c WHERE c.correo = :usuario AND c.contrasena = :clave AND c.eliminado = 'False'")
+                    .setParameter("usuario", usuario)
+                    .setParameter("clave", clave)
+                    .getSingleResult();
+
+        } catch (NoResultException w) {
+            return c;
+        }
+        return c;
+    }
+
 }

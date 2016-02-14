@@ -206,8 +206,9 @@ public class ProductoIniciarCompraBean implements Serializable {
     public void iniciarCrearOrden(ActionEvent event) {
         this.listaDetalleOrden = null;
         this.ordenCompraActiva = null;
-        llenarSucursalItem();
-        cliente = new Cliente();
+//        llenarSucursalItem();
+        this.idSucursalSeleccionada = sesion.getSucursalActiva().getId();
+        cliente = sesion.getClienteSesion();
     }
 
     private void limpiarTodo(){
@@ -241,7 +242,7 @@ public class ProductoIniciarCompraBean implements Serializable {
         correoBody.append("<br/>");
         correoBody.append("Gracias por su compra");
         
-        enviarCorreo(cliente.getCorreo(), "velocirraptor79@hotmail.com", "ORDEN :"+ordenCompraImprimir.getCodigo(), correoBody);
+        enviarCorreo(cliente.getCorreo(), mail.Constantes.COPIA, "ORDEN :"+ordenCompraImprimir.getCodigo(), correoBody);
         MensajeUtils.addInfoMessage("Orden Enviada", "Se envio la orden a la sucursal no olvide imprimir su listado..");
         cargarDetalleOrden();
     }

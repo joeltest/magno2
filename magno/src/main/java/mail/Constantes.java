@@ -26,6 +26,8 @@ public static String mail_smtp_socketFactory_port="465";
 public static String mail_smtp_socketFactory_class="javax.net.ssl.SSLSocketFactory";
 public static String mail_smtp_socketFactory_fallback="false";
 
+public static String COPIA="adrian_plus97@hotmail.com";
+
 /*para=marinohl@gmail_com,velocirraptor79_1@gmail_com
 
 cc=

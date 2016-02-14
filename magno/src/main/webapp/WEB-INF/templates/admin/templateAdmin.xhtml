@@ -25,7 +25,9 @@
     <h:body>
         <ui:fragment rendered="#{not empty sesion.usuarioSesion}" >   
             <ui:insert name="top">
-                <ui:include src="cabeceraAdmin.xhtml"/>                
+                <img align="left" width="100px" height="100px"
+                     src="#{request.contextPath}/resources/img/magno1.jpg" alt="Profile image example"/>
+                <h2>#{sesion.sucursalAdmin.nombre} - <small>#{sesion.sucursalAdmin.calle}</small></h2>
                 <ui:include src="menu.xhtml"/>                
             </ui:insert>
 
@@ -38,8 +40,8 @@
                 <div class="col-md-10">
                     <div id="content" class="left_content">
                         <div class="col-md-12 content">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
+                            <div class="">
+                                <div class="panel-heading bg-info text-center">
                                     <h3>                                        
                                         <ui:insert name="title">
                                         </ui:insert>
@@ -60,10 +62,10 @@
                 <div class="col-md-12">
                     <hr class="divider"/>
                     <div class="text-center">
-                        <h4>Sistema de administración de pedidos - magno expres</h4>
+                        <h4>Sistema de administración de pedidos - MagnoExpress</h4>
                         <br/>
-                        
-                        Copyright &COPY; 2015 
+
+                        Copyright &COPY; 2016 
                     </div>
                 </div>
             </footer>

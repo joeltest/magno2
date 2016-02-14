@@ -7,10 +7,11 @@
     <h:body>
         <ui:composition>
             <h:form>
+
                 <div class="container-fluid main-container">
                     <!--<div class="col-md-4 sidebar">-->
-                    <ul class="nav nav-pills nav-stacked">
-                        <li class="active">
+                    <ul class="nav nav-pills nav-stacked bg-info">
+                        <li>
                             <p:commandLink value="Administrar Ordenes"                                        
                                            update="@all"                                           
                                            action="/faces/ ./administrarOrdenes.xhtml?faces-redirect=true" />
@@ -58,15 +59,15 @@
                                            update="@all"
                                            action="/faces/./admin/empleados.xhtml?faces-redirect=true" />
                         </li>
-                       <!-- <li>
-                            <p:commandLink value="Usuarios" 
-                                           ajax="false"
-                                           update="@all"
-                                           action="/faces/./admin/usuarios.xhtml?faces-redirect=true" />
-                        </li>
-                       -->
-                          
-                            
+                        <!-- <li>
+                             <p:commandLink value="Usuarios" 
+                                            ajax="false"
+                                            update="@all"
+                                            action="/faces/./admin/usuarios.xhtml?faces-redirect=true" />
+                         </li>
+                        -->
+
+
                         <a href=""></a>
 
                         <li class="btn-default">                                                        
@@ -76,7 +77,7 @@
                                            action="/faces/principal.xhtml?faces-redirect=true" />
                         </li>
 
-                     
+
                     </ul>
 
                 </div>

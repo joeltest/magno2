@@ -164,6 +164,9 @@ public class ProductoBean implements Serializable {
     }
 
     public void eliminar(ActionEvent event) {
+//         seleccionarRegistro();
+//         OPERACION = Constantes.CrudActions.ELIMINAR;
+//    
         producto.setEliminado(Constantes.ELIMINADO_TRUE);
         productoService.edit(producto);
         cargar();

@@ -63,7 +63,7 @@ public class OrdenCompraFacade extends AbstractFacade<OrdenCompra> implements Or
         orden.setHoraGenero(new Date());
         orden.setSucursalId(sucursarService.find(idSucursal));
         orden.setImporteTotal(new BigDecimal(importeTotal));        
-        clienteService.create(cliente);
+//        clienteService.create(cliente);
         orden.setClienteId(cliente);
         create(orden);
         

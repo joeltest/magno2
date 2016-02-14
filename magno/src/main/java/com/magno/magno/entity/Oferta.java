@@ -88,7 +88,15 @@ public class Oferta implements Serializable {
     @JoinColumn(name = "SUCURSAL_ID", referencedColumnName = "ID")
     @ManyToOne(optional = false)
     private Sucursal sucursalId;
-
+    
+     @JoinColumn(name = "SI_ARCHIVO", referencedColumnName = "ID")
+    @ManyToOne
+    private SiArchivo siArchivo;
+     
+    @Size(max = 2000)
+    @Column(name = "DESCRIPCION")
+private String descripcion;
+            
     public Oferta() {
     }
 
@@ -216,6 +224,22 @@ public class Oferta implements Serializable {
     @Override
     public String toString() {
         return "com.magno.pruebacrud.Oferta[ id=" + id + " ]";
+    }
+
+    public SiArchivo getSiArchivo() {
+        return siArchivo;
+    }
+
+    public void setSiArchivo(SiArchivo siArchivo) {
+        this.siArchivo = siArchivo;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
     
 }

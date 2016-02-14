@@ -7,9 +7,9 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:body>
         <ui:composition>
-            <ul class="nav navbar-nav navbar-right">
-                <li>
-                     <h:selectOneMenu value="#{sesion.sucursalSeleccionada}"
+            <div class="row pull-right">
+                <div class="col col-md-10">
+                    <h:selectOneMenu value="#{sesion.sucursalSeleccionada}"
                                      valueChangeListener="#{sesion.cambiarSucursal}"
                                      styleClass="form-control"
                                      >
@@ -19,65 +19,14 @@
                                 render="@all" 
                                 execute="@all"/>
                     </h:selectOneMenu>
-                </li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <span class="glyphicon glyphicon-user"></span> 
-                        <strong>Login</strong>
-                        <span class="glyphicon glyphicon-chevron-down"></span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <div class="navbar-login">
-                                <div class="row">
-                                    <div class="col-lg-4">
-                                        <p class="text-center">
-                                            <span class="glyphicon glyphicon-user icon-size"></span>
-                                        </p>
-                                    </div>
-                                    <div class="col-lg-8">
-                                        <p class="text-left"><p:inputText placeholder="Usuario"/></p>
-                                        <p class="text-left small"><p:inputText placeholder="Contraseña"/></p>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <div class="navbar-login navbar-login-session">
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <p>
-                                            <p:commandLink value="Entrar" styleClass="btn btn-primary btn-lg"/>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
+                </div>
+                <div class="col col-md-2">
+                    <h:commandLink action="carritoCompras.xhtml"
+                                   styleClass="fa fa-shopping-cart  fa-3x"/>
+                </div>
+            </div>
 
-            <style>
-                .navbar-login
-                {
-                    width:400px;
-                    padding: 10px;
-                    padding-bottom: 0px;
-                }
 
-                .navbar-login-session
-                {
-                    padding: 10px;
-                    padding-bottom: 0px;
-                    padding-top: 0px;
-                }
-
-                .icon-size
-                {
-                    font-size: 87px;
-                }
-            </style>
         </ui:composition>   
     </h:body>
 </html>
