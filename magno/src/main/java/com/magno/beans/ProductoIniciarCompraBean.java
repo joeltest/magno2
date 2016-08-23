@@ -75,6 +75,10 @@ public class ProductoIniciarCompraBean implements Serializable {
      @Getter
     @Setter
     private List<SelectItem> listaSucursalItems = null;
+    
+       @Getter
+    @Setter
+     private List<SelectItem> listaItems = null;
     @Getter
     @Setter
     private List<DetalleOrdenCompra> listaDetalleOrden;
@@ -114,6 +118,9 @@ public class ProductoIniciarCompraBean implements Serializable {
 
     private Categoria categoriaActiva;
 
+    @Getter
+    @Setter
+    private long precioMinimo;
     
     /**
      * Creates a new instance of BackingBean
@@ -130,11 +137,23 @@ public class ProductoIniciarCompraBean implements Serializable {
         System.out.println("Cate activa" + getCategoriaActiva().toString());
         cargarLista(idCat);
     }
+    
+    public void ordenarPorPrecioMenorAMayor(ActionEvent even){
+        this.listaProductos = productoService.findAllProductosMenorMayor(sesion.getSucursalActiva().getId(), categoriaActiva.getId());
+    }
+    
+    public void ordenarPorPrecioMayorMenor(ActionEvent even){
+        this.listaProductos = productoService.findAllProductosMayorMenor(sesion.getSucursalActiva().getId(), categoriaActiva.getId());
+    }
+    
+    public void ordenarPorPrecioMenorA(ActionEvent even){
+        this.listaProductos = productoService.findAllProductosPrecioMenorA(sesion.getSucursalActiva().getId(), categoriaActiva.getId(),precioMinimo);
+    }
 
     private void cargarLista(int idCategoria) {
         System.out.println("el id de categoria" + idCategoria);
         //this.setListaProductos(productoService.findAllProductos(sesion.getUsuarioSesion().getSucursalId().getId(),idCategoria));
-        this.setListaProductos(productoService.findAllProductos(1, idCategoria));
+        this.setListaProductos(productoService.findAllProductos(sesion.getSucursalActiva().getId(), idCategoria));
     }
 
     public void agregarProductoACarrito(ActionEvent event) {
@@ -258,6 +277,30 @@ public class ProductoIniciarCompraBean implements Serializable {
         UtilsRedirect.redireccionarContexto("magno/faces/mostrarProductos.xhtml");
     }
     
+//   public void llenarPreciosItem() {
+//
+//      long inicio = 10000;
+//       
+//        List<Float> lista = new ArrayList<>();
+//
+//        if (lista != null && !lista.isEmpty()) {
+//
+//            listaItems = new ArrayList<>();
+//
+//            for(int x=0;x<=10;x++){
+//
+//                SelectItem item = new SelectItem();
+//
+//                item.setValue(x);
+//                String prec = String.valueOf(inicio * x);
+//                
+//                item.setLabel(prec);
+//
+//                listaItems.add(item);
+//            }
+//        }
+//    }
+   
    public void llenarSucursalItem() {
 
         List<Sucursal> listaSucursales = sucursalService.findAll();

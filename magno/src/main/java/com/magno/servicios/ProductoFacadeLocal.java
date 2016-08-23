@@ -35,6 +35,12 @@ public interface ProductoFacadeLocal {
     List<Producto> findAllProductos(int idSucursal);
     
     List<Producto> findAllProductos(int idSucursal,int idCategoria);
+    
+    List<Producto> findAllProductosMenorMayor(int idSucursal,int idCategoria);
+    
+    List<Producto> findAllProductosMayorMenor(int idSucursal,int idCategoria);
+    
+    List<Producto> findAllProductosPrecioMenorA(int idSucursal,int idCategoria,float precio);
 
     List<Producto> findRange(int[] range);
 

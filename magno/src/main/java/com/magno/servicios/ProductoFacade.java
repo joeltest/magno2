@@ -50,9 +50,41 @@ public class ProductoFacade extends AbstractFacade<Producto> implements Producto
     }
 
     @Override
+    public List<Producto> findAllProductosMenorMayor(int idSucursal, int idCategoria) {
+        return em.createQuery("SELECT p FROM Producto p WHERE p.sucursalId.id = :idSucursal "
+                + " AND p.categoriaId.id = :idCategoria "
+                + " AND p.eliminado='False' ORDER BY p.precio DESC")
+                .setParameter("idSucursal", idSucursal)
+                .setParameter("idCategoria", idCategoria)
+                .getResultList();
+    }
+
+    @Override
+    public List<Producto> findAllProductosMayorMenor(int idSucursal, int idCategoria) {
+        return em.createQuery("SELECT p FROM Producto p WHERE p.sucursalId.id = :idSucursal "
+                + " AND p.categoriaId.id = :idCategoria "
+                + " AND p.eliminado='False' ORDER BY p.precio ASC")
+                .setParameter("idSucursal", idSucursal)
+                .setParameter("idCategoria", idCategoria)
+                .getResultList();
+    }
+
+    @Override
+    public List<Producto> findAllProductosPrecioMenorA(int idSucursal, int idCategoria, float precio) {
+        return em.createQuery("SELECT p FROM Producto p WHERE p.sucursalId.id = :idSucursal "
+                + " AND p.categoriaId.id = :idCategoria "
+                + " AND p.eliminado='False' "
+                + " AND p.precio <= :precio ORDER BY p.precio ASC")
+                .setParameter("idSucursal", idSucursal)
+                .setParameter("idCategoria", idCategoria)
+                .setParameter("precio", precio)
+                .getResultList();
+    }
+
+    @Override
     public List<ProductoListaVo> findAllPrincipal() {
         List<ProductoListaVo> lista = new ArrayList<>();
-        
+
         List<Producto> lista1 = em.createNamedQuery("Producto.findAllPrincipal")
                 .setFirstResult(0)
                 .setMaxResults(4)
@@ -68,19 +100,19 @@ public class ProductoFacade extends AbstractFacade<Producto> implements Producto
                 .setMaxResults(12)
                 .getResultList();
         lista.add(new ProductoListaVo(lista3));
-        
+
         return lista;
     }
 
     @Override
     public List<Producto> findAllToday() {
-         List<Producto> lista1 = em.createNamedQuery("Producto.findAllPrincipal")
+        List<Producto> lista1 = em.createNamedQuery("Producto.findAllPrincipal")
                 .setFirstResult(0)
                 .setMaxResults(6)
                 .getResultList();
-         Collections.reverse(lista1);  
-         
-         return lista1;
+        Collections.reverse(lista1);
+
+        return lista1;
     }
 
 }

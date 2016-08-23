@@ -32,6 +32,24 @@
                 </script>  -->         
 
                 <h:form>
+
+                    <div class="row bg-gray pull-right">
+                        <div class="col col-md-6">
+                            <p:commandLink value="Ordenar Precio Menor a Mayor"
+                                           actionListener="#{productoIniciarCompraBean.ordenarPorPrecioMenorA(even)}"
+                                           update="@form"
+                                            styleClass="bg-info"
+                                           process="@form"/>
+                        </div>
+                        <div class="col col-md-6">
+                            <p:commandLink value="Ordenar Precio Mayor a Menor"
+                                           actionListener="#{productoIniciarCompraBean.ordenarPorPrecioMayorMenor(even)}"
+                                           update="@form"
+                                           styleClass="bg-info"
+                                           process="@form"/>
+                        </div>
+
+                    </div>
                     <div class="col-md-12">
                         <div class="panel panel-success">
                             <div class="panel-body">
@@ -67,16 +85,16 @@
                                                             <div class="col-md-6">
                                                                 <h4 class="list-group-item-heading col-md-12">
                                                                     <span class="label label-success"> (#{item.marcaId.nombre})</span>
-                                                                     <p class="col col-md-12">  
+                                                                    <p class="col col-md-12">  
                                                                         #{item.nombre}
                                                                     </p>
-                                                                        <!--<h:commandLink styleClass="btn btn-link"
-                                                                                       action="/detalleProducto.xhtml?faces-redirect=true"
-                                                                                       actionListener="{productoIniciarCompraBean.verDetalleProducto(event)}"                                                                                   
-                                                                                       value=""                                                               
-                                                                                       >
-                                                                            <f:param name="idProducto" value="#{item.id}"/>
-                                                                        </h:commandLink>-->
+                                                                    <!--<h:commandLink styleClass="btn btn-link"
+                                                                                   action="/detalleProducto.xhtml?faces-redirect=true"
+                                                                                   actionListener="{productoIniciarCompraBean.verDetalleProducto(event)}"                                                                                   
+                                                                                   value=""                                                               
+                                                                                   >
+                                                                        <f:param name="idProducto" value="#{item.id}"/>
+                                                                    </h:commandLink>-->
 
                                                                 </h4>
                                                                 <p class="col col-md-12">                                                            
