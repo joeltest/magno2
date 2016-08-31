@@ -8,7 +8,7 @@
     <h:body>
         <ui:composition>
             <div class="row pull-right">
-                <div class="col col-md-10">
+                <div class="col col-md-8">
                     <h:selectOneMenu value="#{sesion.sucursalSeleccionada}"
                                      valueChangeListener="#{sesion.cambiarSucursal}"
                                      styleClass="form-control"
@@ -23,6 +23,18 @@
                 <div class="col col-md-2">
                     <h:commandLink action="carritoCompras.xhtml"
                                    styleClass="fa fa-shopping-cart  fa-3x"/>
+                </div>
+                <!--<div class="col col-md-2">
+                    <p:commandLink value="Cliente "
+                                   styleClass="btn btn-warning"
+                                   action="loginCliente.xhtml"
+                                   ></p:commandLink>
+                </div>-->
+                <div class="col col-md-2">
+                    <p:commandLink value="Admin-"
+                                   styleClass="btn btn-warning"
+                                   action="/administrarOrdenes.xhtml"
+                                   ></p:commandLink>
                 </div>
             </div>
 
